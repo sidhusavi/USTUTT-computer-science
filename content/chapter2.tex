@@ -1,0 +1,173 @@
+%Die Angabe des schlauen Spruchs auf diesem Wege funtioniert nur,
+%wenn keine Änderung des Kapitels mittels den in preambel/chapterheads.tex
+%vorgeschlagenen Möglichkeiten durchgeführt wurde.
+\chapter{Faults in VLSI Systems}
+\label{chap:chapter2}
+%\vspace{-3cm}
+%\vspace{2cm}
+
+Reliability is always a cause of concern during chip manufacturing. A manufactured chip needs to function correctly not just during post-manufacturing tests but during the complete lifespan of the chip. Typical lifespan for a chip designed for commercial purpose is defined as 11.4 years or 100,000 hours \cite{kishore2009}. Failure rate of ICs with respect to time is shown in figure~\ref{fig:bathtubcurve}, typically known as \emph{bathtub curve}.
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.5]{figures/bathtubcurve.png}
+    \caption{Bathtub Curve}
+    \label{fig:bathtubcurve}
+  \end{center}
+\end{figure}
+
+The first region of the graph is called early failures or \emph{infant mortality region}. The second region is the lifetime of the device when random failures occur. The error rate in this region is low and constant. Third region of the graph is wear-out and is caused by failures at the end of the useful life \cite{kishore2009}. It can be expected that the ICs will not enter this region due to technology advances and obsolescence. This makes the first region important from the view of product quality and thus it is important to detect faults at manufacturing level. 
+
+Incorrectness of a VLSI system can be described as a fault, defect or an error. A \emph{defect} in an electronic system is an unintended difference between implemented hardware and its design \cite{Agrawal2000}. Defects can occur either during the manufacturing process or lifetime of the device. An \emph{error} is said to have occurred when an unintended output signal is produced by the system. An error is essentially manifestation of a defect. For the purpose of analysis, a defect is modeled as a \emph{fault}, which is simply representation of defect at abstracted function level.
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.75]{figures/vlsitesting.png}
+    \caption{Typical test flow for VLSI Chips}
+    \label{fig:vlsitesting}
+  \end{center}
+\end{figure}
+
+The figure~\ref{fig:vlsitesting} shows how faulty chips are identified. To decide whether the Device under Test (DUT) is working properly, a set of input stimuli called \emph{test pattern set} is applied to the DUT. \emph{output response} is observed and is then compared standard output. If these outputs do not match then the chip is said to be faulty.
+
+The sources of the fault can be internal or external. When healthy chips fail due external mechanisms like $\alpha$-particle strikes, they are thrown away which contributes to yield loss. Thus to maintain product quality and to reduce yield loss, it is important classify the faults. Section 2 of this chapter describes a taxonomy for such classification according to their sources and characteristic. It also focuses on various fault models that can be used to analyze these faults. The existing techniques for such fault classification are explained in section 3. The last section of this chapter explains diagnostic techniques and how they can used to classify faults.
+
+\section{Fault Taxonomy}
+\label{sec:secft}
+According to the sources of faults, they can be classified into three types: \emph{permanent}, \emph{intermittent}, and \emph{transient}. Permanent faults reflect irreversible physical changes. Intermittent faults occur because of unstable or marginal hardware and can be activated by environmental changes, like higher or lower temperature and voltage. Transients occur because of temporary environmental conditions \cite{Constantinescu2003}. The likelihood of these faults is expected to be higher as increasingly greater amount of transistors are integrated in smaller area \cite{Constantinescu2007}.
+
+\subsection{Permanent Faults}
+Permanent faults are those which occur due to permanent physical changes on chip. These faults generally occur due to issues in manufacturing process, however they can also occur during operational lifetime of the circuit, especially when circuit is old and starts to wear-out \cite{Lehtonen2009}.
+
+\subsubsection{Sources of Permanent Faults:}
+\paragraph{Manufacturing process:}
+So-called \emph{spot defects} can occur during manufacturing of a VLSI chip, and take form of either missing or extra material. Such a defect can cause an unwanted short or open between nodes or make an unintended multi-terminal transistor,leading to changed circuit topology. These defects mainly arise from some contamination, usually in form of dust particles or liquid droplets deposited on the wafer surface during some fabrication step \cite{Khare1996}. Also missing or excess metal may cause unwanted capacitance and resistance respectively resulting in delay lines \cite{Wagner1995}.
+
+\paragraph{Operational failures:}
+\emph{Electromigration} (EM) is defined as mass transport of metal atoms created by collision of electrons \cite{Ghate1982}. This movement of material will result in voids or hillock growth as in figure~\ref{fig:mfgdefects} \cite{Lehtonen2009}, which can result in open circuit or short between adjacent tracks \cite{AnalogDevices2000}. With lower technology nodes, the wire widths are also getting smaller making EM a serious problem. 
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.75]{figures/mfgdefects.png}
+    \caption{Manufacturing defects as sources for intermittent and permanent faults }
+    \label{fig:mfgdefects}
+  \end{center}
+\end{figure}
+
+\subsubsection{Characteristics of permanent faults:}
+\begin{itemize}
+	\item Once permanent fault appears in the system, it does not go away.
+	\item The faults are localized on the chip. They will affect the same set of primary outputs (POs).
+	\item Permanent faults are reproducible and provide a predictable output response.
+ 	\item Permanent faults only go away once the offending component is replaced \cite{Constantinescu2007}.
+\end{itemize}
+
+\subsubsection{Fault models for permanent faults:}
+\paragraph{Stuck-at fault model:}
+Stuck-at fault models are the most simplest fault models. Due to its simplicity and ability to explain many defects accurately, they are widely used \cite{Larsson2006}. It assumes that the fault location has a fixed logical value, either stuck-at 0 or stuck-at 1. These can be seen as short to ground or short to power supply respectively. When it is assumed that there is only one fault in the circuit at a time then \emph{single stuck-at} (SSA) model is used, otherwise in case of multiple defects \emph{multiple stuck-at} model is used. In this thesis we have assumed that there is only one fault active in the circuit at a given time; hence we have used SSA model for our analysis.
+
+\paragraph{Wired AND/OR fault model:}
+Unlike stuck-at, \emph{bridge fault} models a short between signal lines. \emph{Wired AND/OR} fault model is type of bridging fault model. These models are used to describe logic behavior of two nodes that are shorted in the circuit. Wired AND model assumes that the faulty node of the bridge always has value 0, whereas wired OR model assumes faulty node has value 1. 
+
+\paragraph{Delay fault model:}
+\emph{Delay fault} model is used to model timing related faults. Delay testing is required for modern VLSI systems running at high frequencies, as even minor timing violations can lead to system performing out of specifications \cite{Larsson2006}. There are two was to realize delay viz. \emph{Gate delay} and \emph{Path delay} models. Gate delay model assumes that the delay is only between input and output of individual logical gates on chip. In contrast, path delay models assume that the delay is spread over complete path from input to output. 
+
+\subsection{Intermittent faults}
+\label{sec:secif}
+Intermittent faults are those caused by marginal or unstable hardware and are activated when certain conditions like voltage, temperature or frequency are met \cite{Constantinescu2003, Lehtonen2009}. Intermittent faults often precede occurrence of permanent failures \cite{Lehtonen2009}.
+
+\subsubsection{Sources of intermittent faults:}
+\paragraph{Manufacturing defects:}As illustrated in figure~\ref{fig:mfgdefects} \emph{metal silvers} are stray pieces of metal on die due to some process imperfections. In certain conditions like increase in temperature, the metal may expand and touch the interconnects creating a short. In some cases the short might cause a current surge, damaging the circuit and can manifest into a permanent fault \cite{Hawkins2003}. Similarly cracks, as shown in same figure can continue to work normally at design temperature but at low temperatures can cause open circuits.
+
+\paragraph{Technology scaling:} With technology scaling, the supply voltages are also lowered down, which results in degraded noise tolerance \cite{Lehtonen2009}. Also the reduced thickness of oxide layers may result in current leakage, with a mechanism known as soft breakdown (SBD) \cite{Stathis2001}. In such a breakdown, current fluctuates creating intermittent fault, without causing thermal damage \cite{Stathis2001, Constantinescu2007a, Constantinescu2007}.
+
+\subsubsection{Characteristics of intermittent faults:}
+\begin{itemize}
+	\item Once intermittent fault appears in the system, its probability of recurrence increases \cite{Bondavalli2000}.
+	\item The faults are localized on the chip. They will affect the same set of primary outputs (POs).
+	\item Intermittent faults not reproducible every time however they provide a predictable output response.
+ 	\item Intermittent faults only go away once the offending component is replaced \cite{Constantinescu2007}.
+	\item Intermittent faults have tendency to occur in bursts \cite{Constantinescu2007, Constantinescu2003}.
+\end{itemize}
+
+\subsubsection{Fault models for intermittent faults}
+Intermittent faults can be modeled as conditional stuck-at faults, which are traditional stuck-at faults activated by trigger condition. The activation condition can be expressed as boolean function and may depend on timing or environmental conditions \cite{Holst2009}.
+
+\paragraph{High frequency power droop:}A high frequency power droop occurs when multiple cells on a chip connected to same power grid segment switch in same direction, increasing their current demand cause power starvation in some other part of chip. This fault is modeled as a set of aggressor lines $a_1,a_2,...$ and a victim line $v$ \cite{Polian2007}. The fault occurs on victim line, due to presence of aggressor lines.
+
+\subsection{Transient faults}
+\label{sec:sectf}
+Transient faults are temporary deviations of normal circuit function caused by some temporary environmental factors or some external phenomenon. They are called soft errors as they do not do any permanent damage to the chip. A \emph{single-event upset} (SEU), which is change in value of single bit, is the most common manifestation of transient faults.
+
+\subsubsection{Sources of transient faults}
+\paragraph{Particle strikes:}When an $\alpha$-particle, proton or a neutron passes through a semiconductor material and starts to loose energy, it frees electron-hole pairs along its path \cite{Dodd2003}. If this material happens to be a reversed biased p-n junction, it can result in significant transient currents to bring about an SEU. Hence with scaling to lower technology nodes, it is very likely that probability of such SEUs will increase.
+
+\paragraph{Other sources:} \emph{Electromagnetic interference} caused by sources emitting high energy signal may interfere with working chip to bring about SEUs. \emph{Electrostatic discharge} due to users releasing static charge can also affect chips to cause transient faults.
+
+\subsubsection{Characteristics}
+\begin{itemize}
+	\item Transient faults are non-deterministic faults.
+	\item These faults are not localized hence can affect any of the POs.
+	\item Transient faults are not reproducible.
+ 	\item Replacing offending component may not make transient faults to go away \cite{Constantinescu2007}.
+	\item Transient faults are isolated incidences of error occurrence, they usually do not occur in bursts like intermittent faults \cite{Constantinescu2007, Constantinescu2003}.
+\end{itemize}
+
+\subsubsection{Fault models for transient faults}
+One of the ways  to model transient fault is to implement a conditional stuck-at fault, at multiple fault location and to use a deterministic function to trigger the fault \cite{Holst2009}
+
+
+\section{Fault Classification}
+Test flows like one shown in figure~\ref{fig:vlsitesting} are able to distinguish between faulty and healthy chips. A better approach in \cite{DeKleer2009} is able to distinguish permanent faults from faults with non-deterministic behavior. However the traditional post-manufacturing tests still work same way as shown in figure~\ref{fig:traditionaltestflow} \cite{Weste1985}. 
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.75]{figures/traditionaltestflow.png}
+    \caption{Traditional flow for fault classification}
+    \label{fig:traditionaltestflow}
+  \end{center}
+\end{figure}
+
+With advances in manufacturing processes number of permanent faults are reducing \cite{kishore2009}, while on the other hand the impact of soft-errors and other non critical failures is increasing \cite{Constantinescu2003}. Some studies have indicated that up to 80\% failures can be attributed to SEUs \cite{Iyer1986, Dharchoudhury1994, kishore2009}, which suggest that these cases will result in unnecessary yield loss. This section describes a few techniques to discriminate between different error categories described earlier in the chapter. As the error categories are similar in characteristics to those observed on PCs or workstations, the approaches used for their classification also provide a few pointers towards fault classification in VLSI systems. 
+
+In \cite{Lin1990} a mechanism to classify between transient and intermittent faults is explained for error log analysis. In a technique called \emph{Dispersion Frame Technique} (DFT), inter-arrival time in between successive error events of same error types is used to determine type of fault in the system. Heuristics are applied to determine closeness in time and affected area which are then considered as parameters to decide whether the error is of the same type.
+
+Authors in \cite{Iyer1990} use a similar technique to identify persistent failures in the system. Here they have used error rates to build up correlation using simple probabilistic techniques between error records, leading to a set of symptoms which may suggest a common cause (permanent errors).
+
+A probabilistic approach is considered in \cite{Pizza1998}, which updates probability of module being affected by permanent fault. It then weighs the consequences of actions performed by a faulty module vs. fault-free module uses Bayesian inference to discriminate between permanent and transient errors
+
+\subsection{Fault Classification Techniques for VLSI Systems}
+Historically a lot of work has been done to analyze impact of different types of faults on VLSI systems \cite{Constantinescu2003,Constantinescu2007,Dodd2003} and to classify them \cite{Savir1980, Espinosa2013, Bondavalli2000, DeKleer2009}. The most popular techniques to classify transients from other types of faults are grouped under a family called $\alpha$-count techniques \cite{Bondavalli2000}. In a scheme called\emph{single threshold $\alpha$-count techniques}, a single threshold is established and if error count exceeds this threshold then fault is classified as permanent or intermittent, whereas a smaller non-zero value indicates presence of transient faults. In an other variant of the same called \emph{dual threshold $\alpha$-count techniques}, two thresholds are established. If error count exceeds first threshold then component is assigned a restricted functionality and when it exceeds the second threshold it is taken out of service, like single threshold. However a component in between thresholds can be taken in full service once its error count is lowered than first threshold.
+
+\section{Fault Diagnosis}
+\label{sec:secfd}
+\emph{Diagnosis} is the process of locating faults in a physical chip at the various levels down to real defects. In traditional fault-dictionary based diagnosis, we are given two sets of data, a \emph{predicted output} $P$ which is set of outputs when fault a particular fault is active in the system, a \emph{measured set} $M$, which is observed fault behavior and corresponding fault $ f_i \in \{f_1,f_2,...,f_n\} $. When the two sets match i.e. $P = M$ the corresponding fault is diagnosed to be active . When $P \neq M$ then logic diagnosis tries to find best fitting explanation. However it is practically infeasible to construct such fault dictionaries for modern circuits, as the fault dictionary should consist of all possible faults and their combinations \cite{Wang2010}. 
+
+An adaptive approach which does not use fault dictionaries called \emph{Partially Overlapping Impact couNTER} (POINTER) for diagnosis is described in \cite{Holst2009}. This approach uses test pattern sets with \emph{Single Location At a Time} (SLAT) property \cite{Bartenstein2001} to diagnose faults present in the circuit. The author in \cite{Holst2009} defines a \emph(Fault Machine) (FM),i.e. a circuit with stuck-at fault injected. As shown in figure~\ref{fig:evidance} a set of tuple parameters called
+\emph{evidance} is defined as,
+
+$e(f,T) = (\sigma_T, \iota_T, \tau_T, \gamma_T)$, where for all patterns $t \in T$
+
+\begin{itemize}
+	\item $\sigma_T$ is sum of number of failing outputs where Device Under Diagnosis (DUD) and FM match
+	\item $\iota_T$ is sum of number of outputs which fail in FM but are correct in DUD.
+	\item $\tau_T$ is sum of number of outputs which fail in DUD but are correct in FM.
+ 	\item $\gamma_T$ is the sum of maximum of $\iota_t $ and $\tau_t$ for every pattern $t \in T$.
+\end{itemize}
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.75]{figures/evidance.png}
+    \caption{Definition of evidance}
+    \label{fig:evidance}
+  \end{center}
+\end{figure}
+
+These parameters vary depending on the type of fault present in the circuit. The use of these parameters to classify faults is explained in section <section reference: feature selection> of this report.  
+
+

@@ -8,28 +8,27 @@
 %
 \documentclass[
                paper=a4,
-%               twoside, % fuer die Betrachtung am Schirm ungeschickt
-% Optionen fuer typearea.
+%               twoside, % fuer die Betrachtung am Schirm ungeschickt Optionen fuer typearea.
                BCOR1.92mm,DIV12,headinclude, %je höher der DIV-Wert, desto mehr geht auf eine Seite - Hack für BCOR. Bei BCOR2mm sind die Fuellpunkte beim Inhaltsverzeichnis falsch
-%               titlepage,
+               titlepage,
                bibliography=totoc,
 %               idxtotoc,   %Index ins Inhaltsverzeichnis
 %				liststotoc, %List of X ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
                headsepline,
                cleardoublepage=empty,
                parskip=half,
-%				pointlessnumbers, %f"ur englische Texte, dann unten \ifdeutsch und \ifenglisch anpassen.
-%               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
-               final   % ACHTUNG! - in pagestyle.tex noch Seitenstil anpassen
+				pointlessnumbers, %f"ur englische Texte, dann unten \ifdeutsch und \ifenglisch anpassen.
+               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
+%               final   % ACHTUNG! - in pagestyle.tex noch Seitenstil anpassen
                ]{scrbook}
 
 %Englisch:			   
-%\let\ifdeutsch\iffalse
-%\let\ifenglisch\iftrue
+\let\ifdeutsch\iffalse
+\let\ifenglisch\iftrue
 
 %Deutsch:
-\let\ifdeutsch\iftrue
-\let\ifenglisch\iffalse
+%\let\ifdeutsch\iftrue
+%\let\ifenglisch\iffalse
 
 			   
 \input{preambel/packages_and_options}
@@ -44,7 +43,7 @@
 % 2 --\subsection
 % 3 --\subsubsection
 % 4 --\paragraph
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 %
 %%%
 
@@ -91,7 +90,8 @@
 %\frontmatter
 \input{macros/commands}
 \pagenumbering{arabic}
-\Titelblatt
+
+%\Titelblatt
 
 %Eigener Seitenstil fuer die Kurzfassung und das Inhaltsverzeichnis
 \deftripstyle{preamble}{}{}{}{}{}{\pagemark}
@@ -206,17 +206,18 @@
 %
 % ** Hier wird der Text eingebunden **
 %
-\input{content/einleitung}
-%\input{...weitere Kapitel...}
-\input{content/kapitel2}
-\input{content/zusammenfassung_und_ausblick}
+\input{content/introduction}
+\input{content/chapter2}
+\input{content/chapter3}
+%\input{content/kapitel2}
+%\input{content/zusammenfassung_und_ausblick}
 %
 %
 %\renewcommand{\appendixtocname}{Anhang}
 %\renewcommand{\appendixname}{Anhang}
 %\renewcommand{\appendixpagename}{Anhang}
 \appendix
-\input{content/anhang}
+%\input{content/anhang}
 %\printindex
 %\bibliographystyle{alphadin}
 \ifdeutsch
@@ -228,7 +229,7 @@
 \ifdeutsch
 Alle URLs wurden zuletzt am 17.\,03.\,2008 geprüft.
 \else
-All links were last followed on March 17, 2008.
+All links were last followed on March 17, 2014.
 \fi
 
 \backmatter 

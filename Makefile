@@ -111,13 +111,15 @@ tabulary.ins:
 microtype.ins:
 	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/microtype/microtype.ins
 	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/microtype/microtype.dtx
+	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/microtype/microtype-utf.dtx
 
 lmodern.sty:
 	wget -r -l1 -nd ftp://dante.ctan.org/tex-archive/fonts/lm/tex/latex/lm/
 
-algorithm.sty:
-	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/algorithms/algorithm.sty
-	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/algorithms/algorithmic.sty
+algorithm.ins:
+	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/algorithms/algorithms.ins
+	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/algorithms/algorithms.dtx
+	wget ftp://dante.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/algorithmicx.sty
 
 %.sty: %.ins
 	tex $? 
