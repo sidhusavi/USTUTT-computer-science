@@ -83,7 +83,7 @@ A clear advantage of using Na\"{i}ve Bayes is that, it is fast to train and fast
   \end{center}
 \end{figure}
 
-In terms of a computer program, this algorithm devices a set of rules which can be interpreted as nested \texttt{IF-ELSE} structure. A simple decision tree is illustrated in figure~\ref{fig:mlfitting}. \emph{Decision tree learning} algorithms are used to obtain decision trees. ID3, RIPPER, C4.5 are some examples of these algorithms \cite{Mitchell1997}. ID3 \cite{Quinlan1986} is simplest of these algorithms is to choose a feature, which provides the most information about classification data. It then constructs tree using top-down approach. Other advanced algorithms like RIPPER \cite{Cohen1995} build upon same approach and then employ \emph{pruning} to reduce training error.
+In terms of a computer program, this algorithm devices a set of rules which can be interpreted as nested \texttt{IF-ELSE} structure. A simple decision tree is illustrated in figure~\ref{fig:mlfitting}. \emph{Decision tree learning} algorithms are used to obtain decision trees. ID3, RIPPER, C4.5 are some examples of these algorithms \cite{Mitchell1997}. ID3 \cite{Quinlan1986} is simplest of these algorithms. In case of decision trees, training is to choose a feature which provides the most information about training set. It then constructs tree using top-down approach. Other advanced algorithms like RIPPER \cite{Cohen1995} build upon same approach and then employ \emph{pruning} to reduce training error.
 
 Decision tree use \enquote{white-box} approach, wherein the internal decision making and structure of tree is visible to user. This also make decision trees easy to visualize and interpret \cite{Kotsiantis2013}. Decision trees also perform feature screening to put less informative features near the leaf nodes, by its construction. Disadvantage of decision trees is that they can create over-complex trees that do not generalize the data well \emph{i.e.} overfitting of data. The problem of learning decision trees is known to be NP-complete hence its worst-case training speed can be slow \cite{Hyafil1976}.
 
@@ -107,5 +107,44 @@ Once trained, MLPs are able to classify data fast \cite{Alpaydin2004}. They can 
 
 \subsection{Support Vector Machines}
 
-\section{Criterion To Choose Suitable ML Algorithm}
-\label{sec:c3mlselection}
+\emph{Support Vector Machines} (SVMs) have existed for a long time, but the research on these gained particular momentum since Vapnik \cite{Vapnik1995} emphasized these methods in books on statistical learning theory. SVM belongs to class of linear classifiers.In higher dimensions, SVM tries to divide the feature space using decision hyperplanes. However as there can be several planes that divide feature space, SVM selects the plane with maximum margin. Figure~\ref{fig:svm1} shows a case where two possible lines divide feature space, $h_1$ and $h_2$. SVM will choose $h_2$ as \emph{decision boundary} or \emph{discriminant function} as it provides maximum margin for classification. The examples in training data SVM uses to evaluate maximum margin (\emph{i.e.} examples with least distance from decision hyperplane) are called \emph{support vectors}.
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.45]{figures/svm1.png}
+    \caption{SVM with linear decision boundary}
+    \label{fig:svm1}
+  \end{center}
+\end{figure}
+The discriminant used in this case can be expressed as,
+\[g(x) = \boldsymbol{w^T}\boldsymbol{x} + w_0 \]
+Where $w_0$ denotes a bias, and vector $\boldsymbol{w}$ is known as weight factor.
+
+However as illustrated in figure~\ref{fig:svm2} the feature space may not be linearly separable at all. In these cases SVM uses \emph{kernel trick} to achieve linearly separable kernel space. The idea behind kernel trick is to apply a function $\phi$ to transform all points in feature space, so that resulting feature space is linearly separable. After transformation, regular SVM algorithm is used for classification.
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.45]{figures/svm2.png}
+    \caption{Kernel trick for SVM}
+    \label{fig:svm2}
+  \end{center}
+\end{figure}
+
+This makes the linear discriminant used of the form,
+\[\boldsymbol{y} = \boldsymbol{w^T}\phi(\boldsymbol{x}) + w_0 \]
+
+Referring to figure~\ref{fig:svm1}, hyperplane $h_2$ is actually a result of two hyperplanes, defined by the respective support vectors of two classes. Let $h_{21}$ and $h_{22}$ represent these hyperplanes	such that:
+\[\begin{array}{ll} 
+h_{21}: \boldsymbol{w^T}\boldsymbol{x} + b = 1 & \mbox{when label is +1};\\
+h_{22}: \boldsymbol{w^T}\boldsymbol{x} + b = -1 & \mbox{when label is -1}
+\end{array} \]
+
+Let $||\boldsymbol{w}||$ denote the distance between these hyperplanes. Then the training of SVM is to find a maximum margin hyperplane, which can be viewed as an optimization problem \cite{Vapnik1995, Chang2011},
+\[\begin{array}{ll} 
+ \min &\frac{1}{2} ||\boldsymbol{w}||^2 \\
+ \mbox{subject to} & r^t(\boldsymbol{w^T}\phi(\boldsymbol{x}) + w_0) 
+\end{array}\]
+
+The advantage of using SVM is its ability to tackle non-linear data. By using variey of kernels like linear, polynomial, RBF and so on, user has flexibility to classify data with non-linear feature spaces \cite {Chang2011}. Handling higher dimensional features spaces is also non-issue because of theoretical framework \cite{Vapnik1995} supports an $n$-dimensional space. SVMs also provide a unique solution as optimality problem is convex, which is an advantage as compared to neural networks, which can provide solutions at local minimum \cite{Auria2008}. SVM, being a maximum margin classifier, avoids underfitting of data. One the other hand, training an SVM is solving an optimality problem (known to be NP hard) and is quadratic (dependent of $N^2$), hence it can take a long time to train when datasets are large. Also, a common disadvantage of SVM is lack of transparency of the model it constructs to classify data, specially when feature set is large \cite{Auria2008}.
