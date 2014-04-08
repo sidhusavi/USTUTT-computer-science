@@ -148,3 +148,6 @@ Let $||\boldsymbol{w}||$ denote the distance between these hyperplanes. Then the
 \end{array}\]
 
 The advantage of using SVM is its ability to tackle non-linear data. By using variey of kernels like linear, polynomial, RBF and so on, user has flexibility to classify data with non-linear feature spaces \cite {Chang2011}. Handling higher dimensional features spaces is also non-issue because of theoretical framework \cite{Vapnik1995} supports an $n$-dimensional space. SVMs also provide a unique solution as optimality problem is convex, which is an advantage as compared to neural networks, which can provide solutions at local minimum \cite{Auria2008}. SVM, being a maximum margin classifier, avoids underfitting of data. One the other hand, training an SVM is solving an optimality problem (known to be NP hard) and is quadratic (dependent of $N^2$), hence it can take a long time to train when datasets are large. Also, a common disadvantage of SVM is lack of transparency of the model it constructs to classify data, specially when feature set is large \cite{Auria2008}.
+
+\section{Selection Criterion for machine learning algorithm}
+
