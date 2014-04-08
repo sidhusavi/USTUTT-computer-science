@@ -11,6 +11,20 @@
   isbn = {9780792379911}
 }
 
+@BOOK{Alpaydin2004,
+  title = {Introduction to machine learning},
+  publisher = {MIT press},
+  year = {2004},
+  author = {Alpaydin, Ethem}
+}
+
+@TECHREPORT{Auria2008,
+  author = {Auria, Laura and Moro, Rouslan A},
+  title = {Support vector machines (SVM) as a technique for solvency analysis},
+  institution = {Discussion papers//German Institute for Economic Research},
+  year = {2008}
+}
+
 @INPROCEEDINGS{Bartenstein2001,
   author = {Bartenstein, Thomas and Sliwinski, David and Heaberlin, Douglas and
 	Huisman, Leendert},
@@ -33,6 +47,37 @@
   pages = {230--245},
   number = {3},
   publisher = {IEEE}
+}
+
+@ARTICLE{Castillo2000,
+  author = {Castillo, PA and Merelo, JJ and Prieto, Alberto and Rivas, V and
+	Romero, Gustavo},
+  title = {G-Prop: Global optimization of multilayer perceptrons using GAs},
+  journal = {Neurocomputing},
+  year = {2000},
+  volume = {35},
+  pages = {149--163},
+  number = {1},
+  publisher = {Elsevier}
+}
+
+@ARTICLE{Chang2011,
+  author = {Chang, Chih-Chung and Lin, Chih-Jen},
+  title = {{LIBSVM}: A library for support vector machines},
+  journal = {ACM Transactions on Intelligent Systems and Technology},
+  year = {2011},
+  volume = {2},
+  pages = {27:1--27:27},
+  note = {Software available at \url{http://www.csie.ntu.edu.tw/~cjlin/libsvm}},
+  issue = {3}
+}
+
+@INPROCEEDINGS{Cohen1995,
+  author = {Cohen, William and others},
+  title = {Fast effective rule induction},
+  booktitle = {Twelfth International Conference on Machine Learning},
+  year = {1995},
+  pages = {115--123}
 }
 
 @ARTICLE{Constantinescu2007,
@@ -94,6 +139,18 @@
   publisher = {IEEE}
 }
 
+@ARTICLE{El-Khatib2010,
+  author = {El-Khatib, Khalil},
+  title = {Impact of feature reduction on the efficiency of wireless intrusion
+	detection systems},
+  journal = {Parallel and Distributed Systems, IEEE Transactions on},
+  year = {2010},
+  volume = {21},
+  pages = {1143--1149},
+  number = {8},
+  publisher = {IEEE}
+}
+
 @INCOLLECTION{Espinosa2013,
   author = {Espinosa, Jaime and Andrés, David and Ruiz, Juan-Carlos and Gil,
 	Pedro},
@@ -140,6 +197,24 @@
   publisher = {Springer}
 }
 
+@TECHREPORT{Hsu2003,
+  author = {Hsu, Chih-Wei and Chang, Chih-Chung and Lin, Chih-Jen and others},
+  title = {A practical guide to support vector classification},
+  institution = {Department of Computer Science, National Taiwan University},
+  year = {2003}
+}
+
+@ARTICLE{Hyafil1976,
+  author = {Hyafil, Laurent and Rivest, Ronald L},
+  title = {Constructing optimal binary decision trees is NP-complete},
+  journal = {Information Processing Letters},
+  year = {1976},
+  volume = {5},
+  pages = {15--17},
+  number = {1},
+  publisher = {Elsevier}
+}
+
 @ARTICLE{Iyer1986,
   author = {Iyer, Ravishankar K. and Rossetti, David J},
   title = {A measurement-based model for workload dependence of CPU errors},
@@ -163,6 +238,27 @@
   publisher = {IEEE}
 }
 
+@INPROCEEDINGS{John1995,
+  author = {John, George H and Langley, Pat},
+  title = {Estimating continuous distributions in Bayesian classifiers},
+  booktitle = {Proceedings of the Eleventh conference on Uncertainty in artificial
+	intelligence},
+  year = {1995},
+  pages = {338--345},
+  organization = {Morgan Kaufmann Publishers Inc.}
+}
+
+@ARTICLE{Kavzoglu2002,
+  author = {Kavzoglu, T and Mather, PM},
+  title = {The role of feature selection in artificial neural network applications},
+  journal = {International Journal of Remote Sensing},
+  year = {2002},
+  volume = {23},
+  pages = {2919--2937},
+  number = {15},
+  publisher = {Taylor \& Francis}
+}
+
 @BOOK{Khare1996,
   title = {From Contamination to Defects, Faults and Yield Loss: Simulation
 	and Applications},
@@ -179,6 +275,26 @@
   year = {2009},
   author = {Kishore, K.L. and Prabhakar, V.S.V.},
   isbn = {9789380026671}
+}
+
+@ARTICLE{Kotsiantis2013,
+  author = {Kotsiantis, Sotiris B},
+  title = {Decision trees: a recent overview},
+  journal = {Artificial Intelligence Review},
+  year = {2013},
+  volume = {39},
+  pages = {261--283},
+  number = {4},
+  publisher = {Springer}
+}
+
+@ARTICLE{Kotsiantis2007,
+  author = {Kotsiantis, Sotiris B},
+  title = {Supervised machine learning: a review of classification techniques.},
+  journal = {Informatica (03505596)},
+  year = {2007},
+  volume = {31},
+  number = {3}
 }
 
 @BOOK{Larsson2006,
@@ -209,6 +325,35 @@
   publisher = {IEEE}
 }
 
+@BOOK{Mitchell1997,
+  title = {Machine learning},
+  publisher = {McGraw Hill},
+  year = {1997},
+  author = {Mitchell, T. M.}
+}
+
+@ARTICLE{Nguyen2008,
+  author = {Nguyen, Thuy TT and Armitage, Grenville},
+  title = {A survey of techniques for internet traffic classification using
+	machine learning},
+  journal = {Communications Surveys \& Tutorials, IEEE},
+  year = {2008},
+  volume = {10},
+  pages = {56--76},
+  number = {4},
+  publisher = {IEEE}
+}
+
+@INPROCEEDINGS{Pang2002,
+  author = {Pang, Bo and Lee, Lillian and Vaithyanathan, Shivakumar},
+  title = {Thumbs up?: sentiment classification using machine learning techniques},
+  booktitle = {Proceedings of the ACL-02 conference on Empirical methods in natural
+	language processing-Volume 10},
+  year = {2002},
+  pages = {79--86},
+  organization = {Association for Computational Linguistics}
+}
+
 @INPROCEEDINGS{Pizza1998,
   author = {Pizza, M and Strigini, Lorenzo and Bondavalli, Andrea and Di Giandomenico,
 	Felicita},
@@ -230,6 +375,24 @@
   organization = {IEEE}
 }
 
+@ARTICLE{Quinlan1986,
+  author = {Quinlan, J. Ross},
+  title = {Induction of decision trees},
+  journal = {Machine learning},
+  year = {1986},
+  volume = {1},
+  pages = {81--106},
+  number = {1},
+  publisher = {Springer}
+}
+
+@TECHREPORT{Rumelhart1985,
+  author = {Rumelhart, David E and Hinton, Geoffrey E and Williams, Ronald J},
+  title = {Learning internal representations by error propagation},
+  institution = {DTIC Document},
+  year = {1985}
+}
+
 @ARTICLE{Savir1980,
   author = {Savir, Jacob},
   title = {length M. Each set of curves approaches limiting curve for large},
@@ -237,6 +400,17 @@
   year = {1980},
   volume = {100},
   number = {29}
+}
+
+@ARTICLE{Sebastiani2002,
+  author = {Sebastiani, Fabrizio},
+  title = {Machine learning in automated text categorization},
+  journal = {ACM computing surveys (CSUR)},
+  year = {2002},
+  volume = {34},
+  pages = {1--47},
+  number = {1},
+  publisher = {ACM}
 }
 
 @ARTICLE{Stathis2001,
@@ -251,11 +425,18 @@
   publisher = {IEEE}
 }
 
+@ARTICLE{Vapnik1995,
+  author = {Vapnik, Vladimir N},
+  title = {The Nature of Statistical Learning Theory},
+  year = {1995},
+  publisher = {Citeseer}
+}
+
 @INPROCEEDINGS{Wagner1995,
   author = {Wagner, Israel A and Koren, Israel},
   title = {The effect of spot defects on the parametric yield of long interconnection
 	lines},
-  booktitle = {Proceedings of 1995 IEEE International Workshop onDefect and Fault
+  booktitle = {Proceedings of 1995 IEEE International Workshop on Defect and Fault
 	Tolerance in VLSI Systems, 1995},
   year = {1995},
   pages = {46--54},
@@ -279,6 +460,18 @@
   year = {1985},
   volume = {85},
   pages = {47028}
+}
+
+@ARTICLE{Williams2006,
+  author = {Williams, Nigel and Zander, Sebastian and Armitage, Grenville},
+  title = {A preliminary performance comparison of five machine learning algorithms
+	for practical IP traffic flow classification},
+  journal = {ACM SIGCOMM Computer Communication Review},
+  year = {2006},
+  volume = {36},
+  pages = {5--16},
+  number = {5},
+  publisher = {ACM}
 }
 
 @MANUAL{AnalogDevices2000,

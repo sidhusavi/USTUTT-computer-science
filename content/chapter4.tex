@@ -5,7 +5,19 @@
 \label{chap:chapter4}
 %\vspace{-3cm}
 %\vspace{2cm}
+There are number of methods to separate permanent faults from non-recurring faults as explained in section ~\ref{sec:secfc}.However available techniques do not separate faults as permanent, transient and intermittent. This is of particular importance from point of view of reducing yield loss, by including chips which showed only transient behavior. Also, if faults can be categorized into these categories, then it gives an additional information to designer about the underlying fault, so that additional optimization of yield can be achieved. 
+
+The classification approaches explained in section ~\ref{sec:secfc} are mostly rule or heuristic based (e.g. threshold value in $\alpha$-counting techniques) and these heuristics or rules will change every time technology is node to lower nodes, hence these rules become obsolete over time. An elaborate analysis is required to update these rules for every product and technology.
+
+Generally speaking, when an intermittent fault occurs in a system, its activation rate is higher than transient fault rate \cite{Bondavalli2000}. However, as systems are moving to lower technology nodes, transient faults are also on the rise, as explained in section ~\ref{sec:secft}. Hence with traditional techniques, it becomes difficult to separate transients from intermittent using $\alpha$-count, as the fault rates for these two types of faults become close to each other.
+
+This calls for an automated and adaptive approach which is independent on product and technology and can classify faults as intermittent, transient and permanent. 
+
 \section{Machine learning approach for fault classification}
+
+Machine learning has been used in wide variety of classification applications with reasonable accuracy \cite{Pang2002,Nguyen2008,Sebastiani2002, Kotsiantis2007}. As explained in chapter ~\ref{chap:chapter3}, machine learning is used when it is not practical to arrive at rules by looking at data. Machine learning algorithms can be implemented as \enquote{black-box} approach for classification and all user needs to do is adjust few parameters, depending on machine learning algorithm used. Even parameter searching can be automated and user can fine-tune them for further improvement in accuracy \cite{Hsu2003, Castillo2000}. This makes machine learning a practical and automated approach when large amount of data is available.
+
+Once a feature set is fixed and required parameters are decided, machine learning algorithms analyze the data to set up a classification model. When a technology node is updated one might have to change the database and train the algorithm again, but the training algorithm takes care of feature space and classification rules, making machine learning approaches adaptive.
 
 \section{Feature Selection}
 
