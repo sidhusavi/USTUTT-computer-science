@@ -117,7 +117,7 @@ Tabelle~\ref{tab:Ergebnisse} zeigt Ergebnisse.
 
 \section{Pseudocode}
 Algorithmus~\vref{alg:sample} zeigt einen Beispielalgorithmus.
-\begin{Algorithmus} %Die Umgebung nur benutzen, wenn man den Algorithmus ähnlich wie Graphiken von TeX platzieren lassen möchte
+\begin{algorithm} %Die Umgebung nur benutzen, wenn man den Algorithmus ähnlich wie Graphiken von TeX platzieren lassen möchte
 \caption{Sample algorithm}
 \label{alg:sample}
 \begin{algorithmic}
@@ -148,7 +148,7 @@ $
 \EndIf
 \EndProcedure
 \end{algorithmic}
-\end{Algorithmus}
+\end{algorithm}
 
 \clearpage
 Und wer einen Algorithmus schreiben möchte, der über mehrere Seiten geht, der kann das nur mit folgendem \textbf{üblen} Hack tun:
@@ -157,12 +157,12 @@ Und wer einen Algorithmus schreiben möchte, der über mehrere Seiten geht, der 
 \begin{minipage}{\textwidth}
 \hrule height .8pt width\textwidth
 \vskip.15em%\vskip\abovecaptionskip\relax
-\stepcounter{Algorithmus}
-\addcontentsline{alg}{Algorithmus}{\protect\numberline{\theAlgorithmus}{\ignorespaces Description \relax}}
-\noindent\textbf{Algorithmus \theAlgorithmus} Description
-%\stepcounter{algorithm}
-%\addcontentsline{alg}{Algorithmus}{\thealgorithm{}\hskip0em Description}
-%\textbf{Algorithmus \thealgorithm} Description
+\%stepcounter{Algorithmus}
+%\addcontentsline{alg}{Algorithmus}{\protect\numberline{\theAlgorithmus}{\ignorespaces Description \relax}}
+%\noindent\textbf{Algorithmus \theAlgorithmus} Description
+\stepcounter{algorithm}
+\addcontentsline{alg}{Algorithmus}{\thealgorithm{}\hskip0em Description}
+\textbf{Algorithmus \thealgorithm} Description
 \vskip.3em%\vskip\belowcaptionskip\relax
 \hrule height .5pt width\textwidth
 \end{minipage}

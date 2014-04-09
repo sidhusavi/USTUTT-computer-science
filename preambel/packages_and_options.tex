@@ -438,7 +438,7 @@ inkscape -z -D --file=\getgraphicspath#1.svg %
 %%%
 % Zur Darstellung von Algorithmen
 % Algorithm muss nach hyperref geladen werden
-\usepackage[chapter]{algorithm} 
+\usepackage[]{algorithm} 
 \usepackage[]{algpseudocode}
 %
 %%%
@@ -507,7 +507,7 @@ inkscape -z -D --file=\getgraphicspath#1.svg %
 %neue float Umgebung fuer Listings, die mittels fancyvrb gesetzt werden sollen
 \floatstyle{ruled}
 \newfloat{Listing}{tbp}{code}[chapter]
-\newfloat{Algorithmus}{tbp}{alg}[chapter]
+\newfloat{Algorithm}{tbp}{alg}[chapter]
 %
 %amsmath
 %\numberwithin{equation}{section}
@@ -569,7 +569,7 @@ inkscape -z -D --file=\getgraphicspath#1.svg %
 
 %%%
 %fuer algorithm.sty: - falls Deutsch und nicht Englisch. Falls Englisch als Sprache gewählt wurde, bitte die folgenden beiden Zeilen auskommentieren.
-\floatname{algorithm}{Algorithmus}
+\floatname{algorithm}{Algorithm}
 \ifdeutsch
 \renewcommand{\listalgorithmname}{Verzeichnis der Algorithmen}
 \fi

@@ -60,7 +60,7 @@ We define reproducibility of fault pattern during multiple test runs as maximum 
 \begin{figure}[h]
   \begin{center}
     \captionsetup{justification=centering}
-    \includegraphics[scale=1.00]{figures/epsilon.png}
+    \includegraphics[scale=0.75]{figures/epsilon.png}
     \caption{Behavior of $\epsilon$ for different faults}
     \label{fig:epsilon}
   \end{center}
@@ -68,26 +68,26 @@ We define reproducibility of fault pattern during multiple test runs as maximum 
 
 Figure ~ref{fig:epsilon} shows expected behavior of epsilon for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higer value than transient faults. Figure <plot> shows actual values of epsilon using feature extraction explained in algorithm <alg> for a simple circuit (p45k).
 
-\begin{algorithm}[H]
+\begin{Algorithmus}[H]
+  \captionsetup{justification=centering}
   \caption{Algorithm to evaluate $\epsilon$}
   \label{alg:epsilon}
   \begin{algorithmic}
  \Procedure{ComputeEpsilon}{Expected Output pattern array (EX), Array of output pattern array for all test runs (OP)}
- \State $\epsilon$[size(EX)] $\leftarrow$ 0\;
- \State Index $\leftarrow$ 0\;
- \While{Index $<$ size(EX)}
-  \If{EX[Index] $\neq$ any pattern of OP[Index][]}
-   \State $\epsilon$[Index] $\leftarrow$ max(\Call{SimilarFaultyPatterns}{OP[Index][]})\;
+ \State Initialize $\epsilon$[sizeof(expected output)] $\leftarrow$ 0\;
+ \State Initialize Index $\leftarrow$ 0\;
+ \While{There is uncovered pattern in EX}
+  \If{EX[Index] \neq any pattern at OP[Index][]}
+   \State $\epsilon$[Index] $\leftarrow\$ max(|similar faulty patterns in OP[Index][]|)\;
   \Else
    \State $\epsilon$[Index] $\leftarrow$ 0\;
-  \EndIf
+  \Endif
   \State Index++\;
- \EndWhile
+ \Endwhile
  \State$\epsilon$ $\leftarrow$ max($\epsilon$[])\;
- \State \Return $\epsilon$\;
- \EndProcedure
+ \return $\epsilon$
  \end{algorithmic}
-\end{algorithm}
+\end{Algorithmus}
 
 
 \subsection{Resemblance of erroneous output patterns}
