@@ -61,18 +61,18 @@ We define reproducibility of fault pattern during multiple test runs as maximum 
   \begin{center}
     \captionsetup{justification=centering}
     \includegraphics[scale=1.00]{figures/epsilon.png}
-    \caption{Behavior of $\epsilon$ for different faults}
+    \caption{Expected behavior of $\epsilon$ for different faults}
     \label{fig:epsilon}
   \end{center}
 \end{figure}
 
-Figure ~ref{fig:epsilon} shows expected behavior of epsilon for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higer value than transient faults. Figure <plot> shows actual values of epsilon using feature extraction explained in algorithm <alg> for a simple circuit (p45k).
+Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output patterns was faulty and it calculates maximum occurances of every faulty pattern for given input pattern and stores in into array. Final value of $\epsilon$ is maximum value of in this array.
 
 \begin{algorithm}[H]
   \caption{Algorithm to evaluate $\epsilon$}
   \label{alg:epsilon}
   \begin{algorithmic}
- \Procedure{ComputeEpsilon}{Expected Output pattern array (EX), Array of output pattern array for all test runs (OP)}
+ \Procedure{ComputeEpsilon}{Expected output pattern array (EX), Array of output pattern array for all test runs (OP)}
  \State $\epsilon$[size(EX)] $\leftarrow$ 0\;
  \State Index $\leftarrow$ 0\;
  \While{Index $<$ size(EX)}
@@ -89,8 +89,45 @@ Figure ~ref{fig:epsilon} shows expected behavior of epsilon for different fault 
  \end{algorithmic}
 \end{algorithm}
 
+Figure~\ref{fig:epsilon} shows expected behavior of $\epsilon$ for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higer value than transient faults. Figure <plot> shows actual values of $\epsilon$ for a simple circuit (p45k).
 
 \subsection{Resemblance of erroneous output patterns}
+Resemblance of erroneous output patterns is defined in terms of hamming distance between set of erroneous output patterns obtained during multiple test runs, for same input test pattern in test set. \emph{Hamming Distance} of a set is evaluated as maximum of number of positions in which output patterns differ, pairwise. It is denoted using notation $\delta_H$, subscript $H$ stands for \enquote{horizontal}, denoting the orientation of calculation of hamming distance. If all output patterns for an input test pattern are correct then hamming disantace between them and hence the value of $\delta_H$ would be zero.
+
+Algorithm~\ref{alg:deltah} explains extraction of $\delta_H$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output pattern is faulty, to save some computational efforts to calculate hamming distance. If  any of output pattern is faulty, it calculates value of $\delta_H$ and stores it in array against corresponding index of input pattern. Final value of $\delta_H$ is maximum value of in this array. 
+
+\begin{algorithm}[H]
+  \caption{Algorithm to evaluate $\delta_H$}
+  \label{alg:deltah}
+  \begin{algorithmic}
+ \Procedure{ComputeDeltaH}{Expected output pattern array (EX), Array of output pattern array for all test runs (OP)}
+ \State $\delta_H$[size(EX)] $\leftarrow$ 0\;
+ \State Index $\leftarrow$ 0\;
+ \While{Index $<$ size(EX)}
+  \If{EX[Index] $\neq$ any pattern of OP[Index][]}
+   \State $\delta_H$[Index] $\leftarrow$ max(\Call{HammingDistance}{OP[Index][]})\;
+  \Else
+   \State $\delta_H$[Index] $\leftarrow$ 0\;
+  \EndIf
+  \State Index++\;
+ \EndWhile
+ \State$\delta_H$ $\leftarrow$ max($\delta_H$[])\;
+ \State \Return $\delta_H$\;
+ \EndProcedure
+ \end{algorithmic}
+\end{algorithm}
+
+Figure~\ref{fig:deltah} shows expected behavior of $\delta_H$ for different fault types. Permanent faults repeat with same faulty output pattern and value of $\delta_H$ is expected to be zero. Intermittent faults, even though fail with same faulty output, are not repeatable and hence are expected to have a $\delta_H$ value other than zero. Transient fail randomly at random ouput locations and hence are expected to have higher $\delta_H$ value. Figure <plot> shows actual values of $\delta_H$ for a simple circuit (p45k).
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=1.00]{figures/deltah.png}
+    \caption{Expected behavior of $\delta_H$ for different faults}
+    \label{fig:deltah}
+  \end{center}
+\end{figure}
+
 
 \subsection{Resemblance of output cones}
 

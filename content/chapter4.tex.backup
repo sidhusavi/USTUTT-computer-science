@@ -60,37 +60,62 @@ We define reproducibility of fault pattern during multiple test runs as maximum 
 \begin{figure}[h]
   \begin{center}
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.75]{figures/epsilon.png}
+    \includegraphics[scale=1.00]{figures/epsilon.png}
     \caption{Behavior of $\epsilon$ for different faults}
     \label{fig:epsilon}
   \end{center}
 \end{figure}
 
-Figure ~ref{fig:epsilon} shows expected behavior of epsilon for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higer value than transient faults. Figure <plot> shows actual values of epsilon using feature extraction explained in algorithm <alg> for a simple circuit (p45k).
+Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output patterns was faulty and it calculates maximum occurances of every faulty pattern for given input pattern and stores in into array. Final value of $\epsilon$ is maximum value of in this array.
 
-\begin{Algorithmus}[H]
-  \captionsetup{justification=centering}
+\begin{algorithm}[H]
   \caption{Algorithm to evaluate $\epsilon$}
   \label{alg:epsilon}
   \begin{algorithmic}
  \Procedure{ComputeEpsilon}{Expected Output pattern array (EX), Array of output pattern array for all test runs (OP)}
- \State Initialize $\epsilon$[sizeof(expected output)] $\leftarrow$ 0\;
- \State Initialize Index $\leftarrow$ 0\;
- \While{There is uncovered pattern in EX}
-  \If{EX[Index] \neq any pattern at OP[Index][]}
-   \State $\epsilon$[Index] $\leftarrow\$ max(|similar faulty patterns in OP[Index][]|)\;
+ \State $\epsilon$[size(EX)] $\leftarrow$ 0\;
+ \State Index $\leftarrow$ 0\;
+ \While{Index $<$ size(EX)}
+  \If{EX[Index] $\neq$ any pattern of OP[Index][]}
+   \State $\epsilon$[Index] $\leftarrow$ max(\Call{SimilarFaultyPatterns}{OP[Index][]})\;
   \Else
    \State $\epsilon$[Index] $\leftarrow$ 0\;
-  \Endif
+  \EndIf
   \State Index++\;
- \Endwhile
+ \EndWhile
  \State$\epsilon$ $\leftarrow$ max($\epsilon$[])\;
- \return $\epsilon$
+ \State \Return $\epsilon$\;
+ \EndProcedure
  \end{algorithmic}
-\end{Algorithmus}
+\end{algorithm}
 
+Figure~\ref{fig:epsilon} shows expected behavior of epsilon for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higer value than transient faults. Figure <plot> shows actual values of epsilon for a simple circuit (p45k).
 
 \subsection{Resemblance of erroneous output patterns}
+Resemblance of erroneous output patterns is defined in terms of hamming distance between set of erroneous output patterns obtained during multiple test runs, for same input test pattern in test set. It is denoted using notation $\delta_H$, subscript $H$ stands for \enquote{horizontal}, denoting the orientation of calculation of hamming distance. If all output patterns for an input test pattern are correct then hamming disantace between them and hence the value of $\delta_H$ would be zero.
+
+Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output patterns was faulty and it calculates maximum occurances of every faulty pattern for given input pattern and stores in into array. Final value of $\epsilon$ is maximum value of in this array.
+
+\begin{algorithm}[H]
+  \caption{Algorithm to evaluate $\epsilon$}
+  \label{alg:epsilon}
+  \begin{algorithmic}
+ \Procedure{ComputeEpsilon}{Expected Output pattern array (EX), Array of output pattern array for all test runs (OP)}
+ \State $\epsilon$[size(EX)] $\leftarrow$ 0\;
+ \State Index $\leftarrow$ 0\;
+ \While{Index $<$ size(EX)}
+  \If{EX[Index] $\neq$ any pattern of OP[Index][]}
+   \State $\epsilon$[Index] $\leftarrow$ max(\Call{SimilarFaultyPatterns}{OP[Index][]})\;
+  \Else
+   \State $\epsilon$[Index] $\leftarrow$ 0\;
+  \EndIf
+  \State Index++\;
+ \EndWhile
+ \State$\epsilon$ $\leftarrow$ max($\epsilon$[])\;
+ \State \Return $\epsilon$\;
+ \EndProcedure
+ \end{algorithmic}
+\end{algorithm}
 
 \subsection{Resemblance of output cones}
 
