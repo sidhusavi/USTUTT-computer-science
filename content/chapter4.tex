@@ -5,21 +5,21 @@
 \label{chap:chapter4}
 %\vspace{-3cm}
 %\vspace{2cm}
-There are number of methods to separate permanent faults from non-recurring faults as explained in section ~\ref{sec:secfc}.However available techniques do not separate faults as permanent, transient and intermittent. This is of particular importance from point of view of reducing yield loss, by including chips which showed only transient behavior. Also, if faults can be categorized into these categories, then it gives an additional information to designer about the underlying fault, so that additional optimization of yield can be achieved. 
+There are number of methods to separate permanent faults from non-recurring faults as explained in section~\ref{sec:secfc}. However available techniques do not separate faults as permanent, transient and intermittent. This is of particular importance from point of view of reducing yield loss, by including chips which showed only transient faults. Also, if faults can be categorized into these categories, then it gives an additional information to designer about the underlying fault mechanism, so that additional optimization of yield can be achieved. 
 
 The classification approaches explained in section~\ref{sec:secfc} are mostly rule or heuristic based (e.g. threshold value in $\alpha$-counting techniques) and these heuristics or rules will change every time technology is node to lower nodes, hence these rules become obsolete over time. An elaborate analysis is required to update these rules for every product and technology.
 
-Generally speaking, when an intermittent fault occurs in a system, its activation rate is higher than transient fault rate \cite{Bondavalli2000}. However, as systems are moving to lower technology nodes, transient faults are also on the rise, as explained in section~\ref{sec:secft}. Hence with traditional techniques, it becomes difficult to separate transients from intermittent using $\alpha$-count, as the fault rates for these two types of faults become close to each other.
+Generally speaking, when an intermittent fault occurs in a system, its activation rate is higher than the transient fault rate \cite{Bondavalli2000}. However, as systems are moving to lower technology nodes, transient faults are also on the rise, as explained in section~\ref{sec:secft}. Hence with traditional techniques, it becomes difficult to separate transients from intermittents using $\alpha$-count, as the fault rates for these two types of faults become close to each other.
 
-This calls for an automated and adaptive approach which is independent on product and technology and can classify faults as intermittent, transient and permanent. 
+This calls for an automated and adaptive approach which is independent on product and technology and that can classify faults as intermittent, transient and permanent. 
 
 \section{Machine learning approach for fault classification}
 
-Machine learning has been used in wide variety of classification applications with reasonable accuracy \cite{Pang2002,Nguyen2008,Sebastiani2002, Kotsiantis2007}. As explained in chapter~\ref{chap:chapter3}, machine learning is used when it is not practical to arrive at rules by looking at data. Machine learning algorithms can be implemented as \enquote{black-box} approach for classification and all user needs to do is adjust few parameters, depending on machine learning algorithm used. Even parameter searching can be automated and user can fine-tune them for further improvement in accuracy \cite{Hsu2003, Castillo2000}. This makes machine learning a practical and automated approach when large amount of data is available.
+Machine learning has been used in wide variety of classification applications with reasonable accuracy \cite{Pang2002,Nguyen2008,Sebastiani2002, Kotsiantis2007}. As explained in chapter~\ref{chap:chapter3}, machine learning is used when it is not practical to arrive at rules by looking at the data. Machine learning algorithms can be implemented as \enquote{black-box} approach for classification and all user needs to do is adjust a few parameters, depending on machine learning algorithm used. Even parameter searching can be automated and user can fine-tune them for further improvement in accuracy \cite{Hsu2003, Castillo2000}. This makes machine learning a practical and automated approach when large amount of data is available.
 
-Once a feature set is fixed and required parameters are decided, machine learning algorithms analyze the data to set up a classification model. When a technology node is updated one might have to change the database and train the algorithm again, but the training algorithm takes care of feature space and classification rules, making machine learning approaches adaptive.
+Once a feature set is fixed and the required parameters are decided, machine learning algorithms analyze the data to set up a classification model. When a technology node is updated one might have to change the database and train the algorithm again, but the training algorithm takes care of feature space and classification rules, making machine learning approaches adaptive.
 
-We are going to use as supervised learning as aready explained in section~\ref{sec:secmltypes}. Figure~\ref{fig:mlsteps} explains basic steps for such classification.
+Figure~\ref{fig:mlsteps} explains basic steps for classification using machine learning methods.
 
 \begin{figure}[h]
   \begin{center}
@@ -30,11 +30,11 @@ We are going to use as supervised learning as aready explained in section~\ref{s
   \end{center}
 \end{figure}
 
-First step in designing a machine learning system for classification is to decide on the features that can be efficiently classify the data. Selection of proper features has the most impact in accuracy of any classifier \cite{Michie1994}. Next step is to design algorithms to extract features from input data. This is explained in section~\ref{sec:secfs} of this chapter. Then we generate sample population and decide on which machine learning algorithm is to be used, covered in next chapter.
+First step in designing a machine learning system for classification is to decide on features, which can be efficiently classify the data. Selection of proper features has the most impact in accuracy of any classifier \cite{Michie1994}. This, along with design of algorithms to extract features from input data is explained in section~\ref{sec:secfs} of this chapter. Next step is to generate sample population and decide on which machine learning algorithm is to be used, covered in next chapter.
 
 \section{Feature Selection}
 \label{sec:secfs}
-To begin with feature selection, it is first important to take a look at all the behavioral chatacteritics of different types of faults,covered in chapter~\ref{chap:chapter2}. Table~\ref{tab:charfaults} summerises all important charecterisics to be considered for selection of features. Rest of the section describes features that were selected and algorithms for extraction of those features.
+To begin with feature selection, it is important to take a look at all the behavioral characteristics of different types of faults, as covered in chapter~\ref{chap:chapter2}. Table~\ref{tab:charfaults} summarizes all important characteristics to be considered for selection of features. Rest of the section describes features that were selected and algorithms for extraction of those features.
 
 {%
 \newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
@@ -55,7 +55,7 @@ To begin with feature selection, it is first important to take a look at all the
 }%
 
 \subsection{Reproducibility of fault}
-Reproducibility of fault pattern during multiple test runs is defined as maximum number as maximum number of occurrence of same faulty output pattern for a fixed input pattern, and it is denoted by $\epsilon$. 
+Reproducibility of a fault pattern during multiple test runs is defined as maximum number as maximum number of occurrence of same faulty output pattern for a fixed input pattern, and it is denoted by $\epsilon$. 
 
 \begin{figure}[h]
   \begin{center}
@@ -66,7 +66,7 @@ Reproducibility of fault pattern during multiple test runs is defined as maximum
   \end{center}
 \end{figure}
 
-Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output patterns was faulty and it calculates maximum occurances of every faulty pattern for given input pattern and stores in into array. Final value of $\epsilon$ is maximum value of in this array.
+Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes the expected and actual output patterns as inputs. It then checks if any of output patterns was faulty and it calculates maximum occurrences of every faulty pattern for given input pattern and stores in into array. Final value of $\epsilon$ is maximum value of in this array.
 
 \begin{algorithm}[H]
   \caption{Algorithm to evaluate $\epsilon$}
@@ -89,10 +89,19 @@ Algorithm~\ref{alg:epsilon} explains extraction of $\epsilon$. It takes expected
  \end{algorithmic}
 \end{algorithm}
 
-Figure~\ref{fig:epsilon} shows expected behavior of $\epsilon$ for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to number of test runs for these type of faults. Intermittent faults occur at higher rate than transients for fixed input pattern, hence they are also expected to have somewhat higher value than transient faults. Figure <plot> shows actual values of $\epsilon$ for a simple circuit (p45k).
+Figure~\ref{fig:epsilon} shows expected behavior of $\epsilon$ for different fault types. Permanent faults are repeatable and value of $\epsilon$ is expected to be equal to the number of test runs for these type of faults. Intermittent faults occur at higher rate than that of transients for a fixed input pattern, hence they are also expected to have somewhat higher value than transient faults. Figure~\ref{fig:epsilonp45k} shows actual values of $\epsilon$ for a simple circuit (p45k).
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.35]{figures/epsilonp45k.png}
+    \caption{Plot of $\epsilon$ for p45k}
+    \label{fig:epsilonp45k}
+  \end{center}
+\end{figure}
 
 \subsection{Resemblance of erroneous output patterns}
-Resemblance of erroneous output patterns is defined in terms of hamming distance between set of erroneous output patterns obtained during multiple test runs, for same input test pattern in test set. \emph{Hamming Distance} of a set is evaluated as maximum of number of positions in which output patterns differ, pairwise. It is denoted using notation $\delta_H$, subscript $H$ stands for \enquote{horizontal}, denoting the orientation of calculation of hamming distance. If all output patterns for an input test pattern are correct then hamming distance between them and hence the value of $\delta_H$ would be zero.
+Resemblance of erroneous output patterns is defined in terms of hamming distance between a set of erroneous output patterns obtained during multiple test runs, for the same input test pattern in a test set. \emph{Hamming Distance} of a set is evaluated as maximum of number of positions in which output patterns differ, pairwise. It is denoted using notation $\delta_H$, subscript $H$ stands for \enquote{horizontal}, denoting the orientation of calculation of the hamming distance. If all output patterns for an input test pattern are correct then the hamming distance and hence the value of $\delta_H$ would be zero.
 
 \begin{figure}[h]
   \begin{center}
@@ -103,7 +112,7 @@ Resemblance of erroneous output patterns is defined in terms of hamming distance
   \end{center}
 \end{figure}
 
-Algorithm~\ref{alg:deltah} explains extraction of $\delta_H$. It takes expected output pattern and actual output patterns as inputs. It then checks if any of output pattern is faulty, to save some computational efforts to calculate hamming distance. If  any of output pattern is faulty, it calculates value of $\delta_H$ and stores it in array against corresponding index of input pattern. Final value of $\delta_H$ is maximum value of $\delta_H$ in this array. 
+Algorithm~\ref{alg:deltah} explains extraction of $\delta_H$. It takes the expected and actual output patterns as inputs. It then checks if any of output pattern is faulty, to save some computational efforts. If  any of output pattern is faulty, it calculates value of $\delta_H$ and stores it in array against corresponding index of input pattern. Final value of $\delta_H$ is maximum value of $\delta_H$ in this array. 
 
 \begin{algorithm}[H]
   \caption{Algorithm to evaluate $\delta_H$}
@@ -126,8 +135,16 @@ Algorithm~\ref{alg:deltah} explains extraction of $\delta_H$. It takes expected 
  \end{algorithmic}
 \end{algorithm}
 
-Figure~\ref{fig:deltah} shows expected behavior of $\delta_H$ for different fault types. Permanent faults repeat with same faulty output pattern and value of $\delta_H$ is expected to be zero. Intermittent faults, even though fail with same faulty output, are not repeatable and hence are expected to have a $\delta_H$ value other than zero. Transient fail randomly at random output locations and hence are expected to have higher $\delta_H$ value. Figure <plot> shows actual values of $\delta_H$ for a simple circuit (p45k).
+Figure~\ref{fig:deltah} shows expected behavior of $\delta_H$ for different fault types. Permanent faults repeat with same faulty output pattern and value of $\delta_H$ is expected to be zero. Intermittent faults, even though fail with same faulty output, are not repeatable and hence are expected to have a $\delta_H$ value other than zero. Transient fail randomly at random output locations and hence are expected to have higher $\delta_H$ value. Figure~\ref{fig:deltahp45k} shows actual values of $\delta_H$ for a simple circuit (p45k).
 
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.35]{figures/deltahp45k.png}
+    \caption{Plot of $\delta_H$ for p45k}
+    \label{fig:deltahp45k}
+  \end{center}
+\end{figure}
 
 \subsection{Resemblance of erroneous primary outputs}
 Resemblance of erroneous primary outputs is defined as hamming distance between primary output locations, that showed a faulty behavior at least once for a respective test run. This quantity is denoted by $\delta_V$, subscript $V$ denoting \emph{vertical} collapsing of all faulty primary outputs for a test run, before evaluating hamming distance.
@@ -165,7 +182,16 @@ Algorithm~\ref{alg:deltav} explains extraction of $\delta_V$. It takes expected 
  \end{algorithmic}
 \end{algorithm}
 
-It is expected that value of $\delta_V$ is low in case of permanent and intermittent faults, as these faults manifest into failures at fixed set of output pins. In contrast, transient faults do not have a fixed set of outputs that it affects,resulting in high expected value of $\delta_V$.  Figure <plot> shows actual values of $\delta_V$ for a simple circuit (p45k).
+It is expected that value of $\delta_V$ is low in case of permanent and intermittent faults, as these faults manifest into failures at fixed set of output pins. In contrast, transient faults do not have a fixed set of outputs that it affects,resulting in high expected value of $\delta_V$.  Figure~\ref{fig:deltavp45k} shows actual values of $\delta_V$ for a simple circuit (p45k).
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.35]{figures/deltavp45k.png}
+    \caption{Plot of $\delta_V$ for p45k}
+    \label{fig:deltavp45k}
+  \end{center}
+\end{figure}
 
 \subsection{Diagnostic features}
 Diagnostic features from section~\ref{sec:secfd} are also considered as features for learning algorithm. Diagnostic data also provides information about fault present in circuit. A short summery of fault models and observed behavior for diagnostic parameters is summarized in table~\ref{tab:diagparam}. This table is taken from original work by Holst \emph{et.al.} \cite{Holst2009}.
@@ -189,6 +215,25 @@ Diagnostic features from section~\ref{sec:secfd} are also considered as features
 \end{table}
 }%
 
-In this work it is assumed that at most only a single intermittent or permanent fault is active in the circuit, perhaps with some transient noise (Reference to assumptions section in chap 5). Permanent faults can be modeled as single stuck-at, single conditional stuck-at or a delay fault. Transient faults can be modeled as conditional stuck-at faults, at multiple fault sites as the do not have a fixed location on chip and some deterministic probability function can be used as trigging condition. Similarly intermittent faults can be modeled as single conditional stuck-at faults. Hence combination of values of parameters can be used to deduce which type of fault might be existing on the chip.
+In this work it is assumed that at most only a single intermittent or permanent fault is active in the circuit with or without some transient noise (Reference to assumptions section in chap 5). Most of permanent faults can be modeled as single stuck-at, single conditional stuck-at or a delay faults. Transient faults can be modeled as conditional stuck-at faults, at multiple fault sites as the do not have a fixed location on chip and some deterministic probability function can be used as trigging condition. Similarly intermittent faults can be modeled as single conditional stuck-at faults. Hence combination of values of parameters can be used to deduce which type of fault might exist on the chip.
 
-Furthermore, the standard deviation of evidence parameters is expected to be around zero for permanent faults, as once they are detected then they always be detected using same test pattern set. Standard deviations of all evidence are also considered as features for learning.
+Furthermore, the standard deviation of evidence parameters is expected to be around zero for permanent faults, as once they are detected then they always be detected using same test pattern set. Hence as standard deviations of evidence based features convey some information about fault class, they also considered as features for learning. Figure~\ref{fig:sdevidance} shows actual values of standard deviation of evidence based features for a simple circuit (p45k).
+
+\begin{figure}
+        \centering
+			\captionsetup{justification=centering}
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/sdsigmap45k.png}
+                \caption{Sigma ($\sigma$)}
+        \end{subfigure}
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/sdiotap45k.png}
+                \caption{Iota ($\iota$)}
+        \end{subfigure}
+			\begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/sdtaup45k.png}
+                \caption{Tau ($\tau$)}
+        \end{subfigure}
+        \caption{Standard deviations for evidence-based parameters for p45k}
+        \label{fig:sdevidance} 
+\end{figure}
