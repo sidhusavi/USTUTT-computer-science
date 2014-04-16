@@ -71,9 +71,10 @@ Shell scripts are used to invoke instances of ADAMA and inject fault instances o
 With feature set finalized and sample population generated, selection of classifier is done using the following factors:
 
 \begin{description}
-  \item[Feature set] The size of selected feature set is is small as compared to the data available
-  \item[Sample population] The second item
-  \item[Speed and accuracy] The third etc \ldots
+  \item[Feature set] The feature set is not statistically independent, an important consideration as it violates the prerequisite for Bayes classifier. It can be seen from plots presented in section~\ref{sec:secfs}, that the feature space has high variance and it is not linearly separable, thus it is not practical to come up with rules to classify faults and hence, the performance of decision trees can be expected to be on the lower side. With the same logic, as the feature space is highly complex, polynomial functions in MLPs might not be sufficient to create an acceptable hypothesis, can taking long time to train using higher order polynomials, and can result overfitting the training data. SVMs, on the other hand can handle kernel functions, and can be expected to create a complex hypothesis, as required in our case.
+
+  \item[Sample population] Size of our training dataset is limited. Neural networks and decision trees are known to work well with large training sets \cite{DeFries2000,Tanwani2009}. On the other hand, SVMs are shown to be effective with limited size of \cite{Koggalage2004}. The sample population that we have used is not created according to the probabilities of fault occurrence in real world data. It is also not possible to do so otherwise because of two main reasons, first, it is hard to get hands on actual production numbers for evaluation of results, as those numbers a closely guarded company secrets. And second, in actual application scenario, it is hard to probabilities of fault occurrence. This makes impossible to set set up prior probabilities required for Bayes classifier.
+  \item[Speed and accuracy] \cite{Matlab2014} \ldots
 \end{description}
 
 \subsection{SVM for fault classification}
