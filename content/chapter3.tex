@@ -107,7 +107,7 @@ During training of perceptron, training algorithm will try to find appropriate c
 Once trained, MLPs are able to classify data fast \cite{Alpaydin2004}. They can implement higher order polynomial functions and are flexible and powerful due to well researched mathematical background and variety of training algorithms available, which can be selected according to application and amount of data available. A disadvantage is that the network needs to be completely re-trained when new training data is to be added. Selection of features also has a profound impact on performance of MLPs \cite{Kavzoglu2002, El-Khatib2010}.
 
 \subsection{Support Vector Machines}
-
+\label{mltypes:svm}
 \emph{Support Vector Machines} (SVMs) have existed for a long time, but the research on these gained particular momentum since Vapnik \cite{Vapnik1995} emphasized these methods in books on statistical learning theory. SVM belongs to class of linear classifiers.In higher dimensions, SVM tries to divide the feature space using decision hyperplanes. However as there can be several planes that divide feature space, SVM selects the plane with maximum margin. Figure~\ref{fig:svm1} shows a case where two possible lines divide feature space, $h_1$ and $h_2$. SVM will choose $h_2$ as \emph{decision boundary} or \emph{discriminant function} as it provides maximum margin for classification. The examples in training data SVM uses to evaluate maximum margin (\emph{i.e.} examples with least distance from decision hyperplane) are called \emph{support vectors}.
 
 \begin{figure}[h]

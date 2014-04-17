@@ -36,7 +36,6 @@ For the purpose of running experiments uniformly on different circuit types, a s
 			\item Transient faults (fault rate = 0.01, 0.001, 0.0001) with label \texttt{T}.
 		\item Permanent faults are modeled using stuck-at, wired or delay faults, Intemittents are modeled using high frequency power droop, and transient faults are modeled as conditional stuck-at faults at random locations, triggered using deterministic fault rate.
  		 \end{enumerate}
-  \item One-fourth of total population is separated out as cross-validation set, rest is used as training data.
   \item Test data has 250 ($\pm$ 15) labeled examples, with same configuration as that for sample population.
 \end{enumerate}
 
@@ -67,27 +66,47 @@ Shell scripts are used to invoke instances of ADAMA and inject fault instances o
 
 \section{Library for SVM based classification - \texttt{LIBSVM}}
 \label{sec:libsvm}
-\texttt{LIBSVM} \cite{Chang2011} is a popular SVM library, used in variety of applications. It supports linear, polynomial, radial and sigmoid kernel functions and also supports custom user kernels. It is coded in C++ and Java and it is available as open-source software available for free use under modified BSD license. It supports multi-class classification using multiple binary classifiers. \texttt{LIBSVM} comes with scripts to train the tool and to find optimal parameters for classification.
+\texttt{LIBSVM} \cite{Chang2011} is a popular SVM library, used in variety of applications. It supports linear, polynomial, radial and sigmoid kernel functions and also supports custom user kernels. For experiments, all of the available kernels in the tool have been used, to find out accuracy levels for each of them. It is coded in C++ and Java and it is available as open-source software available for free use under modified BSD license. It supports multi-class classification using multiple binary classifiers. \texttt{LIBSVM} comes with scripts to train the tool and to find optimal parameters for classification.
 
 \subsection{Training}
 
 \begin{figure}[h]
   \begin{center}
     \captionsetup{justification=centering}
-    \includegraphics[scale=0.65]{figures/libsvmtrain.png}
+    \includegraphics[scale=0.75]{figures/libsvmtrain.png}
     \caption{Steps to train SVM using \texttt{LIBSVM}}
     \label{fig:libsvmtrain}
   \end{center}
 \end{figure}
 
 Sequence of steps followed to train SVM, as shown in figure~\ref{fig:libsvmtrain} is as follows:
-
 \begin{description}
-  \item[Permanent Faults] A task in ADAMA called \texttt{fsample} is used to generate fault descriptions for permanent faults. Script first runs task \texttt{fsample} and puts all fault descriptions in a file, and then parses it line-by-line to invoke an instance of ADAMA with task \texttt{spgen}. It then uses same fault descriptions and adds a transient fault instance to generate transient noise and runs the complete process again, while logging seed values used to generate transients. After generation of features is done, it scans through the feature file of permanent faults without transient noise and scans for fault instances which did not result in failure at POs and removes corresponding features, fault descriptions and corresponding items in feature file for permanent faults with transient noise.
+   \item[Format conversion] \texttt{LIBSVM} requires input in \emph{sparse} format. A utility function \texttt{convert} provided by authors of \texttt{LIBSVM} has been extended to be compatible with the CSV format output of \texttt{spgen}.
 
-  \item[Intermittent faults] Script first generates intermittent fault descriptions with random seed values for location and fault activation and store them into a file. It then invokes \texttt{spgen} using ADAMA and simulates these fault instances first without and then with transient noise, while logging all seed values and corresponding fault rates. The fault descriptions and and corresponding examples in feature files of intermittent faults and intermittent faults with transient noise are removed, where intermittent fault as not active at least for one simulation round.
-
-  \item[Transient faults] Script takes circuit description and passes it, along with a transient fault instance with defined fault rate and a randomly generated seed value to \texttt{spgen} in ADAMA. It also logs seed values and corresponding fault rates used for generation of transient fault instances.
+  \item[Scaling] \texttt{svm-scale} executable file in \texttt{LIBSVM} provides functionallity to scale the training data to user specified input range. Documentation of \texttt{LIBSVM} \cite{Hsu2003} suggest use of range [0,1] for the data containing zero values for some of feaures, as in our case. The scaling parameters are stored in a \emph{range file}, which is later used to scale features of future examples or test data.
+  
+  \item[Grid search for C and $\gamma$] \texttt{LIBSVM} provides a script to find suitable values of C and $\gamma$. The grid search algorithm uses $v$-fold cross-validation (CV), meaning that the data is divided into $v$ subsets and one subset is tested against classifier trained with rest of $v-1$ subsets, iteratively until complete training set is covered \cite{Hsu2003}.  This results in the training data being tested once completely, and corresponding accuracy is called as \emph{cross-validation accuracy}. The algorithm then tries various pairs of C and $\gamma$ to find a pair with the highest CV accuracy. This script internally uses \texttt{svm-train} for modeling classifiers, when it calculates CV accuracy, hence the kernel type for training needs to be specified. This script was extended to take kernel type as input.
+ 
+ \item[Training] \texttt{svm-train} executable file in \texttt{LIBSVM} is used for training SVM. It tries to solve the minimization problem (refer section~\ref{mltypes:svm}) to find out best fitting model for the SVM. Kernel to be used for training needs to be provided as input at this stage also. It outputs a \emph{model file} to be used for prediction of future examples.
 \end{description}
 
 \subsection{Classification}
+
+Steps to classify data using already trained SVM is shown in figure~\ref{fig:libsvmpredict}. A short description of the these is noted below:
+
+\begin{figure}[h]
+  \begin{center}
+    \captionsetup{justification=centering}
+    \includegraphics[scale=0.75]{figures/libsvmpredict.png}
+    \caption{Steps for classification of test data with SVM using \texttt{LIBSVM}}
+    \label{fig:libsvmpredict}
+  \end{center}
+\end{figure}
+
+\begin{description}
+   \item[Format conversion] Using the same tool used for format conversion of training data, format of test data is also converted to sparse format.
+
+  \item[Scaling] The test data is scaled using \texttt{svm-scale}. The range file generated while scaling the training data is used in this step to scale the test data.
+  
+  \item[Prediction] \texttt{svm-predict} tool provided with \texttt{LIBSVM} is used to predict
+\end{description}
