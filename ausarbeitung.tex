@@ -20,7 +20,7 @@
 	       pointlessnumbers, %f"ur englische Texte, dann unten \ifdeutsch und \ifenglisch anpassen.
    %            draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
                final   % ACHTUNG! - in pagestyle.tex noch Seitenstil anpassen
-               ]{scrbook}
+               ]{scrreprt}
 
 %Englisch:			   
 \let\ifdeutsch\iffalse
@@ -94,7 +94,7 @@
 
 %\frontmatter
 \input{macros/commands}
-\pagenumbering{arabic}
+\pagenumbering{roman}
 %Eigener Seitenstil fuer die Kurzfassung und das Inhaltsverzeichnis
 \deftripstyle{preamble}{}{}{}{}{}{\pagemark}
 %Doku zu deftripstyle: scrguide.pdf
@@ -103,12 +103,31 @@
 
 %Kurzfassung / abstract
 %auch im Stil vom Inhaltsverzeichnis
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\begin{spacing}{1.5} 
+As I present the results of my Masters thesis, I would like to thank the many people who made this success possible.
+
+To begin with, I would like to express my heartfelt gratitude to Prof. Dr. Hans-Joachim Wunderlich for providing me with the opportunity to contribute towards the research project, OTERA, with this thesis. The frequent suggestions and reviews provided by him were critical for the success of this thesis. I would like to thank my thesis supervisors - Mr. Michael Kochte, Mr. Michael Imhof and Mr. Francesco Cervellera. They took keen interest in my work and motivated me all along to meet the goals of the thesis. I feel lucky to have been supervised by them. Without their invaluable guidance and direction, I would have been surely lost.
+
+I would like to specially thank the system administrators of the department - Mr.  Helmut Häfner  and Mr. Lothar Hellmeier for providing all the necessary infrastructure for the thesis expeditiously. I am also thankful to all the staff members of the institute for making my thesis at the institute an enjoyable experience.
+
+Finally, I would like to thank all my friends and colleagues who were with me during all the ups and downs of the Masters thesis. Going through all of this alone would have been difficult.
+\end{spacing}
+
 \ifdeutsch
-\section*{Kurzfassung}
+\chapter*{Kurzfassung}
 \else
-\section*{Abstract}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
 \fi
-\ldots ... Short summary of the thesis ...
+\begin{spacing}{1.2} 
+Runtime reconfigurable architectures, which integrate a hard processor core along with a reconfigurable fabric on a single device, allow to accelerate a computation by means of hardware accelerators implemented in the reconfigurable fabric. Runtime partial reconfiguration provides the flexibility to dynamically change these hardware accelerators to adapt the computing capacity of the system. This thesis presents the evaluation of design paradigms which exploit partial reconfiguration to implement compute intensive applications on such runtime reconfigurable architectures. For this purpose, image processing applications are implemented on Zynq-7000, a System on a Chip (SoC) from Xilinx Inc. which integrates an ARM Cortex A9 with a reconfigurable fabric. 
+
+This thesis studies different image processing applications to select suitable candidates that benefit if implemented on the above mentioned class of reconfigurable architectures using runtime partial reconfiguration. Different Intellectual Property (IP) cores for executing basic image operations are generated using high level synthesis for the implementation. A software based scheduler, executed in the Linux environment running on the ARM core, is responsible for implementing the image processing application by means of loading appropriate IP cores into the reconfigurable fabric. The implementation is evaluated to measure the application speed up, resource savings, power savings and the delay on account of partial reconfiguration. 
+
+The results of the thesis suggest that the use of partial reconfiguration to implement an application provides FPGA resource savings. The extent of resource savings depends on the granularity of the operations into which the application is decomposed. The thesis could also establish that runtime partial reconfiguration can be used to accelerate the computations in reconfigurable architectures with processor core like the Zynq-7000 platform. The achieved computational speed-up depends on factors like the number of hardware accelerators used for the computation and the reconfiguration schedule used. The reconfiguration schedule can be optimised to subsume reconfiguration delays within the execution time of the hardware accelerators for achieving better performance. The thesis also highlights the power savings that can be achieved by executing computations in the reconfigurable fabric instead of the processor core. 
+\end{spacing}
 \cleardoublepage
 
 
@@ -167,27 +186,29 @@
 \makeatother
 \let\cleardoublepage\clearpage
 \listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 \let\cleardoublepage\relax
 \listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
 
 %Wird nur bei Verwendung von der lstlisting-Umgebung mit dem "caption"-Parameter benoetigt
 %\lstlistoflistings 
 %ansonsten:
-\ifdeutsch
-\listof{Listing}{Verzeichnis der Listings}
-\else
-\listof{Listing}{List of Listings}
-\fi
+%\ifdeutsch
+%\listof{Listing}{Verzeichnis der Listings}
+%\else
+%\listof{Listing}{List of Listings}
+%\fi
 
 %mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.
 %Mit folgendem Befehl werden alle floats dieses Typs ausgegeben
-\ifdeutsch
-\listof{Algorithm}{Verzeichnis der Algorithmen}
-\else
-\listof{Algorithm}{List of Algorithms}
-\fi
+%\ifdeutsch
+%\listof{Algorithm}{Verzeichnis der Algorithmen}
+%\else
+%\listof{Algorithm}{List of Algorithms}
+%\fi
 \listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
-
+\addcontentsline{toc}{chapter}{List of Algorithms}
 \endgroup
 
 \cleardoublepage
@@ -200,7 +221,7 @@
 
 % END: Verzeichnisse
 
-
+\pagenumbering{arabic}
 \renewcommand*{\chapterpagestyle}{scrplain}
 \pagestyle{scrheadings}
 \input{preambel/pagestyle}
@@ -238,7 +259,7 @@ Alle URLs wurden zuletzt am 17.\,03.\,2008 geprüft.
 All links were last followed on March 17, 2014.
 \fi
 
-\backmatter 
+%\backmatter 
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
 \Versicherung
