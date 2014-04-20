@@ -59,9 +59,11 @@ p295k                                        & 89.84                            
 \label{tab:linwp}
 \end{table}
 
-\begin{table}[h]
+In both cases, with and without permanent faults, it can be observed that, permanent faults are being relatively accurately being classified and background transient noise seems to have almost no effect on classification accuracy of permanent faults. Intermittent faults in both cases have relatively low accuracy levels and tend to deteriorate severely in presence of transient noise. 
 
-	\captionsetup{justification=centering}
+
+\begin{table}[h]
+\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
 \multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}\\ \cline{2-5} 
@@ -69,7 +71,7 @@ p295k                                        & 89.84                            
                          &                                   & w/o noise      & with noise      &                            \\ \hline
 p45k                     & 87.81                             & 72.91          & 70.08           & 97.95                      \\
 p100k                    & 81.43                             & 69.05          & 59.52           & 97.96                      \\
-p141k                    & 84.13                             & 21.42          & 76.19           & 100                        \\
+p141k                    & 84.13                             & 78.57          & 76.19           & 100                        \\
 p267k                    & 77.09                             & 80.00          & 55.00           & 100                        \\
 p279k                    & 84.65                             & 78.94          & 52.63           & 91.83                      \\
 p295k                    & 89.17                             & 90.69          & 81.39           & 100           \\
@@ -79,10 +81,9 @@ p295k                    & 89.17                             & 90.69          & 
 \label{tab:linwop}
 \end{table}
 
+After removing permanents from the sample population, classification accuracies are observed to improve, with an exception of p100k. However, accuracy levels are observed to increase for intermittents with noise even in the case of p100k. Classification accuracy of transient faults has also increased. Cross-validation accuracy levels have decreased, as large chuck of correctly classified data in earlier case was permanent faults. Comparatively lower accuracy levels for intermittent faults and almost 100\% classification rate for transients suggests that, linear kernel is more biased towards transient faults.
 
 \subsection{Polynomial Kernel}
-
-
 \begin{table}[h]
 
 	\captionsetup{justification=centering}
@@ -102,6 +103,10 @@ p295k                    & 90.78                             & 100           & 9
 \caption {Classification accuracy for polynomial kernel}
 \label{tab:polywp}
 \end{table}
+
+Accuracy of SVM using polynomial kernel is summarized in table~\ref{tab:polywp} with considering permanent faults in sample population, and the same without considering permanents is summarized in table~\ref{tab:polywop}.
+
+Accuracy of classification of permanent faults, without noise in case of polynomial kernel is observed to be even higher than linear kernel. For permanents with noise, classification rates are almost similar. Intermittent faults with permanents in first round, without noise are deteriorating in some cases, while improving significantly in others. With noise, however, accuracy of intermittent fault classification is improved. Classification accuracy of transient faults is decreased as compared to linear kernel.
 
 \begin{table}[h]
 
@@ -123,9 +128,13 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:polywop}
 \end{table}
 
+In second round, after removing permanents, a huge improvement in accuracy of intermittent faults is observed as compared to the first round. The results are also better than those for linear kernel.  A marginal improvement in transient fault classification accuracy is also observed as compared to the first round. However, overall figures for transients are lower than those for linear kernel. Observations suggest that polynomial kernel is slightly biased towards intermittents.
 
 
 \subsection{RBF Kernel}
+
+Accuracy of SVM using Radial Basis Function (RBF) kernel is summarized in table~\ref{tab:rbfwp} with considering permanent faults in sample population, and the same without considering permanents is summarized in table~\ref{tab:rbfwop}.
+
 \begin{table}[h]
 
 	\captionsetup{justification=centering}
@@ -138,16 +147,20 @@ p45k                     & 91.21                             & 100           & 1
 p100k                    & 87.36                             & 100           & 100           & 64.28          & 61.94           & 93.87                      \\
 p141k                    & 88.63                             & 100           & 100           & 73.80          & 71.42           & 93.87                      \\
 p267k                    & 87.27                             & 100           & 98.27         & 80.00          & 72.50           & 93.87                      \\
-p279k                    & 89.52                             & 98.30         & 96.55         & 78.94          & 71.05           & 93.87                      \\
+p279k                    & 89.52                             & 98.30         & 96.55         & 78.92          & 71.05           & 93.87                      \\
 p295k                    & 91.00                             & 100           & 100           & 79.06          & 74.41           & 95.91                     \\
 \hline                                                     
 \end{tabular}
 \caption {Classification accuracy for RBF kernel}
 \label{tab:rbfwp}
 \end{table}
+Classification rates for permanent faults, with and without noise, are higher for RBF kernel as compared to others. Like in other cases, injection of transient noise has affected accuracy of intermittent fault classification, significantly. Accuracy figures for both, intermittent faults with and without noise, are lower as compared to previous two kernels. Transient fault classification accuracy shows marginal improvement over polynomial kernel, but is still lower than the linear kernel.
+
+Intermittent fault classification accuracy is increased for simpler circuits, but shows no change for more complex circuits. However, for intermittent faults injected with noise, accuracy is improved as compared to the first round, but is till lower than other kernel types. A slight increase in transient fault classification accuracy is also observed. 
+
+A notable observation in case of RBF kenrel is its comparatively higher cross-validation accuracy figures and lower test set classification accuracy, an indication that the kernel may be overfitting.
 
 \begin{table}[h]
-
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
@@ -159,24 +172,29 @@ p100k                    & 83.33                             & 78.57          & 
 p141k                    & 86.53                             & 83.33          & 80.95           & 100                        \\
 p267k                    & 80.19                             & 82.50          & 70.00           & 95.91                      \\
 p279k                    & 85.64                             & 78.92          & 76.31           & 95.91                      \\
-p295k                    & 85.64                             & 78.92          & 76.31           & 95.91  						  \\
+p295k                    & 85.64                             & 79.06          & 76.31           & 95.91  						  \\
 \hline
 \end{tabular}
 \caption {Classification accuracy for RBF kernel, without permanent faults}
 \label{tab:rbfwop}
 \end{table}
 
+
 \subsection{Sigmoid Kernel}
+
+Accuracy of SVM using Radial Basis Function (RBF) kernel is summarized in table~\ref{tab:sigwp} with considering permanent faults in sample population, and the same without considering permanents is summarized in table~\ref{tab:sigwop}.
+
+Again, the permanent fault classification rates for permanent faults is fairly high for sigmoid kernel also. The Intermittent fault classification accuracy is comparatively low (except p100k) despite high cross validation accuracy. This coupled with high transient fault classification accuracy indicate that sigmoid kernel is biased towards transient faults. This has also resulted in degradation of accuracy levels when intermittents were injected with transient noise.
 
 \begin{table}[h]
 
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccccc}
 \hline
-\multirow{3}{*}{Circuit} & \multicolumn{6}{c}{Accuracy (\%)}                                                                                                 \\ \cline{2-7} 
+\multirow{3}{*}{Circuit} & \multicolumn{6}{c}{Accuracy (\%)}\\ \cline{2-7} 
                          & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Permanent} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-6}
                          &                                   & w/o noise     & with noise    & w/o noise      & with noise      &                            \\ \hline
-p45k                     & 89.55                             & 87.50         & 87.50         & 77.08          & 60.41           & 95.91                      \\
+p45k                     & 89.55                             & 97.50         & 97.50         & 77.08          & 60.41           & 95.91                      \\
 p100k                    & 85.08                             & 100           & 100           & 95.23          & 52.38           & 71.42                      \\
 p141k                    & 84.17                             & 100           & 100           & 57.14          & 57.14           & 100                        \\
 p267k                    & 82.46                             & 100           & 98.27         & 42.50          & 42.50           & 100                        \\
@@ -188,6 +206,7 @@ p295k                    & 85.09                             & 98.21         & 9
 \label{tab:sigwp}
 \end{table}
 
+The kernel became more biased towards transients when permanent fault examples were removed from sample population. Transient fault classification accuracy was observed to increase to near 100\%. However, intermittent classification accuracy also increased at the same time, for cases with and without transient noise.
 
 \begin{table}[h]
 
@@ -202,7 +221,7 @@ p100k                    & 80.00                             & 81.39          & 
 p141k                    & 80.04                             & 78.57          & 73.80           & 100                        \\
 p267k                    & 75.17                             & 75.00          & 55.00           & 100                        \\
 p279k                    & 83.41                             & 81.57          & 52.63           & 91.83                      \\
-p295k                    & 92.16                             & 93.02          & 86.04           & 91.83                     \\
+p295k                    & 92.28                             & 93.02          & 86.04           & 91.83                     \\
 \hline
 \end{tabular}
 \caption {Classification accuracy for sigmoid kernel, without permanent faults}
