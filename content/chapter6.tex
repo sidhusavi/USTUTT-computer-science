@@ -5,4 +5,204 @@
 \label{chap:chapter6}
 %\vspace{-3cm}
 %\vspace{2cm}
+This chapter presents results of classification using experimental setup described in chapter~\ref{chap:chapter6}. The term \emph{Classification accuracy} of a class used in chapter is defined as,
 
+\[ \begin{array}{ll} accuracy(r_i) = \frac{\mbox{Samples correctly predicted as $r_i$}}
+								{\mbox{Total samples with label $r_i$}}
+							\times 100 & 
+							\forall \,r_i \in \{\mbox{\texttt{P,I,T}}\} 
+	\end{array}\]
+
+Where, $r$ is the label of test sample $x=\{\boldsymbol{x},r\}$.
+
+In the presented evaluation, cross-validation accuracy is also noted for each set of experiments, as this is value of accuracy during self-validation of much larger training set.
+
+In the first part analyzes classification efficiency after grid search for optimal values of $C$ and $\gamma$, but does not consider any other optimization, detailed account of results are presented for each kernel type available in \texttt{LIBSVM}. Second part improvises the first, and results are noted after optimization of so-called \emph{class-weights}. Third part explores two possibilities -that of using one  of using single prediction model for predicting all types of circuits, and second to extrapolating known model to predict new circuit types. The last part tries to evaluate impact on yield and quality of final product after application of suggested method.
+
+\section{Classification of permanent faults}
+
+Consider a special case, where $\epsilon = Test Runs$. In our classification problem this can mean,
+\begin{enumerate}
+  \item It is a permanent fault.
+  \item A rare case of highly repetitive intermittent fault, and can be said to be \enquote{critical}.
+  \item An extremely rare transient fault, as it happened at the same location and for same input test pattern, in all test runs.
+\end{enumerate}
+
+In the other direction, for permanent faults $\epsilon = Test Runs$ holds true, except a rare possibility that transient noise affects all the test patterns, which have resulted in failure at POs, in at least one of test runs. This is also an extremely rare possibility. Hence we assume that, a fault is permanent if and only if $\epsilon = Test Runs$.
+
+If we go back to section~\ref{sec:secfs} and observe the plot for $\epsilon$ in figure~\ref{fig:epsilonp45k}, we can observe our assumption to be fairly accurate. Hence if we do a slight modification in our experimental setup and already remove faults where $\epsilon = Test Runs$, and classify them as permanent faults, we can achieve 100\% permanent fault classification, and we would be left with a binary classification problem between transient and intermittent faults. 
+
+\section{Classification without class-weight optimization}
+First set of experiments consist of evaluation of accuracy levels without assigning class weights \emph{i.e.} class-weights are assumed to be \{1,1,1\} for permanent, intermittent and transient faults respectively. The experiments are carried out for variety of circuits ranging from simple p45k to highly complex p295k. The experiments are repeated for each type of kernel provided by \texttt{LIBSVM}. 
+
+This set of experiments consist of two rounds each for each kernel, first one includes permanent faults in sample population, the other one without considering them. A round with permanents is carried out only to evaluate change in accuracy levels of classification.
+
+\subsection{Linear Kernel}
+\begin{table}[h]
+\label{tab:linwp}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccccc}
+\hline
+\multicolumn{1}{c}{\multirow{3}{*}{Circuit}} & \multicolumn{6}{c}{Accuracy (\%)}\\ \cline{2-7} 
+\multicolumn{1}{c}{}                         & \multicolumn{1}{c}{\multirow{2}{*}{Cross-validation}} & \multicolumn{2}{c}{Permanent} & \multicolumn{2}{c}{Intermittent} & \multicolumn{1}{c}{\multirow{2}{*}{Transient}} \\ \cline{3-6}
+                                             &                                                       & w/o noise     & with noise    & w/o noise      & with noise      &                                                \\ \hline
+p45k                                         & 90.14                                                 & 87.50         & 87.50         & 77.50          & 64.58           & 93.90                                          \\
+p100k                                        & 87.38                                                 & 100           & 100           & 80.95          & 57.14           & 95.91                                          \\
+p141k                                        & 83.89                                                 & 98.21         & 98.21         & 61.90          & 57.14           & 100                                            \\
+p267k                                        & 85.12                                                 & 100           & 100           & 55.00          & 52.50           & 100                                            \\
+p279k                                        & 89.52                                                 & 98.30         & 96.61         & 78.94          & 52.50           & 89.79                                          \\
+p295k                                        & 89.84                                                 & 100           & 100           & 81.39          & 65.11           & 100   \\
+\hline                                        
+\end{tabular}
+\caption {Classification accuracy for linear kernel}
+\end{table}
+
+\begin{table}[h]
+\label{tab:linwop}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}\\ \cline{2-5} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-4}
+                         &                                   & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 87.81                             & 72.91          & 70.08           & 97.95                      \\
+p100k                    & 81.43                             & 69.05          & 59.52           & 97.96                      \\
+p141k                    & 84.13                             & 21.42          & 76.19           & 100                        \\
+p267k                    & 77.09                             & 80.00          & 55.00           & 100                        \\
+p279k                    & 84.65                             & 78.94          & 52.63           & 91.83                      \\
+p295k                    & 89.17                             & 90.69          & 81.39           & 100           \\
+\hline            
+\end{tabular}
+\caption {Classification accuracy for linear kernel, without permanent faults}
+\end{table}
+
+
+\subsection{Polynomial Kernel}
+
+
+\begin{table}[h]
+\label{tab:polywp}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{6}{c}{Accuracy (\%)}\\ \cline{2-7} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Permanent} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-6}
+                         &                                   & w/o noise     & with noise    & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 90.92                             & 87.50         & 89.58         & 68.75          & 70.83           & 83.67                      \\
+p100k                    & 89.70                             & 100           & 97.82         & 69.04          & 66.66           & 93.87                      \\
+p141k                    & 87.94                             & 100           & 100           & 73.80          & 71.42           & 95.00                      \\
+p267k                    & 87.34                             & 100           & 96.55         & 82.50          & 60.00           & 85.71                      \\
+p279k                    & 91.42                             & 98.30         & 96.55         & 81.57          & 73.68           & 91.83                      \\
+p295k                    & 90.78                             & 100           & 98.21         & 76.09          & 72.09           & 95.91      \\
+\hline                                                     
+\end{tabular}
+\caption {Classification accuracy for polynomial kernel}
+\end{table}
+
+\begin{table}[h]
+\label{tab:polywop}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}\\ \cline{2-5} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-4}
+                         &                                   & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 87.81                             & 81.25          & 72.91           & 87.76                      \\
+p100k                    & 85.00                             & 78.57          & 66.66           & 89.79                      \\
+p141k                    & 85.57                             & 80.95          & 76.19           & 100                        \\
+p267k                    & 81.38                             & 82.50          & 72.50           & 93.87                      \\
+p279k                    & 85.57                             & 78.94          & 73.68           & 93.87                      \\
+p295k                    & 92.28                             & 93.02          & 86.04           & 93.87                      \\
+\hline
+\end{tabular}
+\caption {Classification accuracy for polynomial kernel, without permanent faults}
+\end{table}
+
+
+
+\subsection{RBF Kernel}
+\begin{table}[h]
+\label{tab:rbfwp}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{6}{c}{Accuracy (\%)}\\ \cline{2-7} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Permanent} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-6}
+                         &                                   & w/o noise     & with noise    & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 91.21                             & 100           & 100           & 66.66          & 64.58           & 91.83                      \\
+p100k                    & 87.36                             & 100           & 100           & 64.28          & 61.94           & 93.87                      \\
+p141k                    & 88.63                             & 100           & 100           & 73.80          & 71.42           & 93.87                      \\
+p267k                    & 87.27                             & 100           & 98.27         & 80.00          & 72.50           & 93.87                      \\
+p279k                    & 89.52                             & 98.30         & 96.55         & 78.94          & 71.05           & 93.87                      \\
+p295k                    & 91.00                             & 100           & 100           & 79.06          & 74.41           & 95.91                     \\
+\hline                                                     
+\end{tabular}
+\caption {Classification accuracy for RBF kernel}
+\end{table}
+
+\begin{table}[h]
+\label{tab:rbfwop}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}                                                                 \\ \cline{2-5} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-4}
+                         &                                   & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 87.56                             & 77.08          & 70.83           & 91.83                      \\
+p100k                    & 83.33                             & 78.57          & 64.28           & 89.79                      \\
+p141k                    & 86.53                             & 83.33          & 80.95           & 100                        \\
+p267k                    & 80.19                             & 82.50          & 70.00           & 95.91                      \\
+p279k                    & 85.64                             & 78.92          & 76.31           & 95.91                      \\
+p295k                    & 85.64                             & 78.92          & 76.31           & 95.91  						  \\
+\hline
+\end{tabular}
+\caption {Classification accuracy for RBF kernel, without permanent faults}
+\end{table}
+
+\subsection{Sigmoid Kernel}
+
+\begin{table}[h]
+\label{tab:sigwp}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{6}{c}{Accuracy (\%)}                                                                                                 \\ \cline{2-7} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Permanent} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-6}
+                         &                                   & w/o noise     & with noise    & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 89.55                             & 87.50         & 87.50         & 77.08          & 60.41           & 95.91                      \\
+p100k                    & 85.08                             & 100           & 100           & 95.23          & 52.38           & 71.42                      \\
+p141k                    & 84.17                             & 100           & 100           & 57.14          & 57.14           & 100                        \\
+p267k                    & 82.46                             & 100           & 98.27         & 42.50          & 42.50           & 100                        \\
+p279k                    & 89.29                             & 98.30         & 96.55         & 81.57          & 52.63           & 87.76                      \\
+p295k                    & 85.09                             & 98.21         & 98.21         & 69.76          & 65.11           & 100                       \\
+\hline                                                     
+\end{tabular}
+\caption {Classification accuracy for sigmoid kernel}
+\end{table}
+
+
+\begin{table}[h]
+\label{tab:sigwop}
+	\captionsetup{justification=centering}
+\begin{tabular}{ccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}                                                                 \\ \cline{2-5} 
+                         & \multirow{2}{*}{Cross-validation} & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-4}
+                         &                                   & w/o noise      & with noise      &                            \\ \hline
+p45k                     & 84.46                             & 68.75          & 60.41           & 100                        \\
+p100k                    & 80.00                             & 81.39          & 52.38           & 100                        \\
+p141k                    & 80.04                             & 78.57          & 73.80           & 100                        \\
+p267k                    & 75.17                             & 75.00          & 55.00           & 100                        \\
+p279k                    & 83.41                             & 81.57          & 52.63           & 91.83                      \\
+p295k                    & 92.16                             & 93.02          & 86.04           & 91.83                     \\
+\hline
+\end{tabular}
+\caption {Classification accuracy for sigmoid kernel, without permanent faults}
+\end{table}
+
+\subsection{Analysis of intermittent fault classification}
+\section{With class-weight optimization}
+\section{Other possibilities}
+\subsection{Using single training set for prediction}
+\subsection{Using known model to extrapolate results}
+\section{Impact of yield and quality of final product}

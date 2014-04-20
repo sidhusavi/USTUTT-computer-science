@@ -52,8 +52,8 @@
 %Angaben in die PDF-Infos uebernehmen
 \makeatletter
 \hypersetup{
-            pdftitle={}, %Titel der Arbeit
-            pdfauthor={}, %Author
+            pdftitle={Machine Learning Methods for Fault Classification}, %Titel der Arbeit
+            pdfauthor={Siddharth Sunil Gosavi}, %Author
             pdfkeywords={}, % CR-Klassifikation und ggf. weitere Stichworte
             pdfsubject={}
 }
@@ -122,11 +122,17 @@ Finally, I would like to thank all my friends and colleagues who were with me du
 \addcontentsline{toc}{chapter}{Abstract}
 \fi
 \begin{spacing}{1.2} 
-Runtime reconfigurable architectures, which integrate a hard processor core along with a reconfigurable fabric on a single device, allow to accelerate a computation by means of hardware accelerators implemented in the reconfigurable fabric. Runtime partial reconfiguration provides the flexibility to dynamically change these hardware accelerators to adapt the computing capacity of the system. This thesis presents the evaluation of design paradigms which exploit partial reconfiguration to implement compute intensive applications on such runtime reconfigurable architectures. For this purpose, image processing applications are implemented on Zynq-7000, a System on a Chip (SoC) from Xilinx Inc. which integrates an ARM Cortex A9 with a reconfigurable fabric. 
+With constant evolution of technology and ever-increasing transistor densities in semiconductor chips, error rates on semiconductor chips are on the rise. Errors that occur on semiconductor chips can be attributed to permanent, transient or intermittent faults.
 
-This thesis studies different image processing applications to select suitable candidates that benefit if implemented on the above mentioned class of reconfigurable architectures using runtime partial reconfiguration. Different Intellectual Property (IP) cores for executing basic image operations are generated using high level synthesis for the implementation. A software based scheduler, executed in the Linux environment running on the ARM core, is responsible for implementing the image processing application by means of loading appropriate IP cores into the reconfigurable fabric. The implementation is evaluated to measure the application speed up, resource savings, power savings and the delay on account of partial reconfiguration. 
+Out of these errors, permanent errors once appear, do not go away and once intermittent faults appear on chips, probability that they will occur again is high, making these two types of faults critical. Transient faults occur very rarely, making them non-critical. Incorrect classification in manufacturing test may result in failure or decrease in product quality in case of critical faults, whereas discarding chips with non-critical faults may result in unnecessary yield loss.
 
-The results of the thesis suggest that the use of partial reconfiguration to implement an application provides FPGA resource savings. The extent of resource savings depends on the granularity of the operations into which the application is decomposed. The thesis could also establish that runtime partial reconfiguration can be used to accelerate the computations in reconfigurable architectures with processor core like the Zynq-7000 platform. The achieved computational speed-up depends on factors like the number of hardware accelerators used for the computation and the reconfiguration schedule used. The reconfiguration schedule can be optimised to subsume reconfiguration delays within the execution time of the hardware accelerators for achieving better performance. The thesis also highlights the power savings that can be achieved by executing computations in the reconfigurable fabric instead of the processor core. 
+Existing mechanisms to distinguish between the fault types are mostly rule-based, and as fault types start manifesting similarly as we move to lower technology nodes,these rules become obsolete over time. Hence, rules need to be updated every time a technology is changed. Due to the same reason, it becomes difficult to formulate rules at lower technology nodes.
+
+Machine learning approaches have shown that the lack of knowledge can be covered up with data. In our case, the ambiguity of the classification rules can be covered up by storing past classification decisions and \emph{learn} from those for accurate classification. 
+
+This thesis presents a possible solution to problem of fault classification in VLSI chips using Support Vector Machine (SVM) based machine learning techniques.
+
+
 \end{spacing}
 \cleardoublepage
 
