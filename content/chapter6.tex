@@ -128,7 +128,7 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:polywop}
 \end{table}
 
-In second round, after removing permanents, a huge improvement in accuracy of intermittent faults is observed as compared to the first round. The results are also better than those for linear kernel.  A marginal improvement in transient fault classification accuracy is also observed as compared to the first round. However, overall figures for transients are lower than those for linear kernel. Observations suggest that polynomial kernel is slightly biased towards intermittents.
+In second round, after removing permanents, a huge improvement in accuracy of intermittent faults is observed as compared to the first round. The results are also better than those for linear kernel.  A marginal improvement in transient fault classification accuracy is also observed as compared to the first round. However, overall figures for transients are lower than those for linear kernel. Observations suggest that, polynomial kernel is slightly biased towards intermittents.
 
 
 \subsection{RBF Kernel}
@@ -184,7 +184,7 @@ p295k                    & 85.64                             & 79.06          & 
 
 Accuracy of SVM using Radial Basis Function (RBF) kernel is summarized in table~\ref{tab:sigwp} with considering permanent faults in sample population, and the same without considering permanents is summarized in table~\ref{tab:sigwop}.
 
-Again, the permanent fault classification rates for permanent faults is fairly high for sigmoid kernel also. The Intermittent fault classification accuracy is comparatively low (except p100k) despite high cross validation accuracy. This coupled with high transient fault classification accuracy indicate that sigmoid kernel is biased towards transient faults. This has also resulted in degradation of accuracy levels when intermittents were injected with transient noise.
+Again, the permanent fault classification rates for permanent faults is fairly high for sigmoid kernel also. The Intermittent fault classification accuracy is comparatively low (except p100k) despite high cross validation accuracy. This coupled with high transient fault classification accuracy indicate that, sigmoid kernel is biased towards transient faults. This has also resulted in degradation of accuracy levels when intermittents were injected with transient noise.
 
 \begin{table}[h]
 
@@ -206,11 +206,10 @@ p295k                    & 85.09                             & 98.21         & 9
 \label{tab:sigwp}
 \end{table}
 
-The kernel became more biased towards transients when permanent fault examples were removed from sample population. Transient fault classification accuracy was observed to increase to near 100\%. However, intermittent classification accuracy also increased at the same time, for cases with and without transient noise.
+The kernel became more biased towards transients when permanent fault examples were removed from sample population. Transient fault classification accuracy was observed to increase to near 100\%. However, intermittent classification accuracy also increased at the same time, with and without transient noise.
 
 \begin{table}[h]
-
-	\captionsetup{justification=centering}
+\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
 \multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}                                                                 \\ \cline{2-5} 
@@ -229,8 +228,217 @@ p295k                    & 92.28                             & 93.02          & 
 \end{table}
 
 \subsection{Analysis of intermittent fault classification}
+
+
+\begin{table}[h]
+\captionsetup{justification=centering}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multirow{3}{*}{Kernel} & \multicolumn{6}{c}{Classification accuracy (\%)}\\ \cline{3-8} 
+                         &                         & \multicolumn{3}{c}{Intermittent faults without noise} & \multicolumn{3}{c}{Intermittent faults with noise} \\ \cline{3-8} 
+                         &                         & rate = 0.1    & rate = 0.01    & rate = 0.001   & rate = 0.1   & rate = 0.01   & rate = 0.001  \\ \hline
+\multirow{4}{*}{p141k}   & linear                  & 100           & 81.25          & 25.00          & 100          & 75.00         & 25.00         \\
+                         & polynomial              & 100           & 81.25          & 37.5           & 100          & 75.00         & 25.00         \\
+                         & RBF                     & 100           & 81.25          & 50.00          & 100          & 81.25         & 37.5          \\
+                         & sigmoid                 & 100           & 81.25          & 25.00          & 100          & 68.75         & 25.00         \\
+\hline
+\multirow{4}{*}{p267k}   & linear                  & 94.73         & 82.35          & 20.00          & 89.47        & 35.29         & 0.00          \\
+                         & polynomial              & 94.73         & 88.23          & 20.00          & 94.73        & 64.70         & 20.00         \\
+                         & RBF                     & 94.73         & 88.2           & 20.00          & 94.73        & 58.82         & 20.00         \\
+                         & sigmoid                 & 94.73         & 70.58          & 20.00          & 89.47        & 35.29         & 0.00          \\
+
+\hline
+\multirow{4}{*}{p295k}   & linear                  & 100           & 88.23          & 77.77          & 100          & 88.23         & 33.33         \\
+                         & polynomial              & 100           & 94.11          & 77.77          & 100          & 100           & 33.33         \\
+                         & RBF                     & 100           & 94.117         & 77.77          & 100          & 100           & 33.33         \\
+                         & sigmoid                 & 100           & 88.23          & 77.77          & 100          & 76.47         & 22.22     	\\
+\hline   
+\end{tabular}
+}
+\caption{Accuracy of intermittent fault classification for different fault rates}
+\label{tab:intdetail}
+\end{table}
+
+\begin{table}[h]
+\begin{tabular}{ccccc}
+\hline
+\multirow{3}{*}{Circuit} & \multirow{3}{*}{Kernel} & \multicolumn{3}{c}{Classification accuracy (\%)}              \\ \cline{3-5} 
+                         &                         & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{3-4}
+                         &                         & w/o noise      & with noise      &                            \\ \hline
+\multirow{4}{*}{p141k}   & linear                  & 100            & 100             & 100                        \\
+                         & polynomial              & 100            & 100             & 100                        \\
+                         & RBF                     & 100            & 100             & 100                        \\
+                         & sigmoid                 & 100            & 100             & 100                        \\
+\hline
+\multirow{4}{*}{p267k}   & linear                  & 100            & 100             & 100                        \\
+                         & polynomial              & 100            & 100             & 93.87                      \\
+                         & RBF                     & 100            & 100             & 95.91                      \\
+                         & sigmoid                 & 100            & 100             & 100                        \\
+\hline
+\multirow{4}{*}{p295k}   & linear                  & 100            & 100             & 100                        \\
+                         & polynomial              & 100            & 100             & 93.87                      \\
+                         & RBF                     & 100            & 100             & 91.83                      \\
+                         & sigmoid                 & 100            & 100             & 91.83                     \\
+\hline
+\end{tabular}
+\caption{Improvement in accuracy levels after removing intermittents with $\epsilon = 1$}
+\label{tab:intsweep}
+\end{table}
+
 \section{With class-weight optimization}
-\section{Other possibilities}
-\subsection{Using single training set for prediction}
+
+\begin{figure}
+        \centering
+			\captionsetup{justification=centering}
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/lin256i.png}
+                \caption{Intermittent fault accuracy, linear kernel}
+        \end{subfigure}
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/lin256t.png}
+                \caption{Transient fault accuracy, linear kernel}
+        \end{subfigure}
+
+			\begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/poly256i.png}
+                \caption{Intermittent fault accuracy, polynomial kernel}
+        \end{subfigure}
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/poly256i.png}
+                \caption{Transient fault accuracy, polynomial kernel}
+        \end{subfigure}
+
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/rbf256i.png}
+                \caption{Intermittent fault accuracy, RBF kernel}
+        \end{subfigure}
+			\begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/rbf256t.png}
+                \caption{Transient fault accuracy, RBF kernel}
+        \end{subfigure}
+
+        \begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/sig256i.png}
+                \caption{Intermittent fault accuracy, sigmoid kernel}
+        \end{subfigure}
+			\begin{subfigure}[h]{0.45\linewidth}
+                \includegraphics[scale=0.25]{figures/sig256t.png}
+                \caption{Transient fault accuracy, sigmoid kernel}
+        \end{subfigure}
+
+        \caption{Plots of acccuracy by varying class-weights for p256k}
+        \label{fig:sdevidance} 
+\end{figure}
+
+\begin{table}[h]
+\captionsetup{justification=centering}
+\begin{tabular}{cccccc}
+\hline
+\multirow{3}{*}{Kernel}     & \multirow{3}{*}{Optimization Criterion} & \multirow{3}{*}{Class-weights \{\texttt{I,T}\}} & \multicolumn{3}{c}{Classification accuracy (\%)}              \\ \cline{4-6} 
+                            &                                         &                                                   & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{4-5}
+                            &                                         &                                                   & w/o noise      & with noise      &                            \\ \hline
+\multirow{2}{*}{linear}     & Intermittent                            & \{1.5,1\}                                         & 100            & 100             & 22.44                      \\
+                            & Transient                               & \{1,1\}                                           & 80.00          & 55.00           & 100                        \\
+\hline
+\multirow{2}{*}{polynomial} & Intermittent                            & \{1.85,1.05\}                                     & 97.50          & 80.00           & 20.00                      \\
+                            & Transient                               & \{1.3,1.95\}                                      & 82.50          & 67.50           & 97.95                      \\
+\hline
+\multirow{2}{*}{RBF}        & Intermittent                            & \{1.75,1.15\}                                     & 95.00          & 72.50           & 89.79                      \\
+                            & Transient                               & \{1.2,1.3\}                                       & 72.50          & 70.00           & 95.91                      \\
+\hline
+\multirow{2}{*}{sigmoid}    & Intermittent                            & \{1.7,1.1\}                                       & 85.00          & 77.50           & 65.30                      \\
+                            & Transient                               & \{1.9,1.8\}                                       & 82.5           & 57.5            & 100                       \\
+\hline
+\end{tabular}
+\caption{Accuracy after class-weight optimization for p267k}
+\label{tab:optp267k}
+\end{table}
+
+\section{Training using universal datasets}
+
 \subsection{Using known model to extrapolate results}
-\section{Impact of yield and quality of final product}
+
+\begin{table}[h]
+\captionsetup{justification=centering}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccc}
+\hline
+\multirow{3}{*}{Kernel}     & \multirow{3}{*}{Cross-validation accuracy (\%)} & \multirow{3}{*}{Circuit} & \multicolumn{3}{c}{Accuracy (\%)}                             \\ \cline{4-6} 
+                            &                                                 &                          & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{4-5}
+                            &                                                 &                          & without noise    & with noise    &                            \\ \hline
+\multirow{5}{*}{Linear}     & \multirow{5}{*}{89.17}                          & p45k                     & 77.08            & 72.91         & 95.91                      \\
+                            &                                                 & p100k                    & 71.42            & 64.28         & 75.51                      \\
+                            &                                                 & p141k                    & 78.57            & 73.08         & 100                        \\
+                            &                                                 & p267k                    & 77.5             & 62.5          & 100                        \\
+                            &                                                 & p279k                    & 78.94            & 57.89         & 97.95                      \\
+\hline
+\multirow{5}{*}{polynomial} & \multirow{5}{*}{92.28}                          & p45k                     & 79.16            & 81.63         & 75.51                      \\
+                            &                                                 & p100k                    & 78.57            & 76.19         & 73.46                      \\
+                            &                                                 & p141k                    & 88.09            & 80.95         & 91.83                      \\
+                            &                                                 & p267k                    & 82.5             & 77.5          & 87.75                      \\
+                            &                                                 & p279k                    & 78.94            & 76.31         & 97.95                      \\
+\hline
+\multirow{5}{*}{RBF}        & \multirow{5}{*}{92.16}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
+                            &                                                 & p100k                    & 78.57            & 73.8          & 71.42                      \\
+                            &                                                 & p141k                    & 88.09            & 80.95         & 97.95                      \\
+                            &                                                 & p267k                    & 82.5             & 72.5          & 89.79                      \\
+                            &                                                 & p279k                    & 78.94            & 71.05         & 100                        \\
+\hline
+\multirow{5}{*}{Sigmoid}    & \multirow{5}{*}{92.16}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
+                            &                                                 & p100k                    & 78.57            & 73.8          & 71.42                      \\
+                            &                                                 & p141k                    & 88.09            & 80.95         & 97.95                      \\
+                            &                                                 & p267k                    & 82.5             & 72.5          & 89.79                      \\
+                            &                                                 & p279k                    & 78.94            & 71.79         & 100                       \\
+\hline
+\end{tabular}
+}
+\caption{My caption}
+\label{my-label}
+\end{table}
+
+
+
+\subsection{Using single training set for prediction}
+
+\begin{table}[h]
+\captionsetup{justification=centering}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccccc}
+\hline
+\multirow{3}{*}{Kernel}     & \multirow{3}{*}{Cross-validation accuracy (\%)} & \multirow{3}{*}{Circuit} & \multicolumn{3}{c}{Classification accuracy (\%)}              \\ \cline{4-6} 
+                            &                                                 &                          & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{4-5}
+                            &                                                 &                          & without noise    & with noise    &                            \\ \hline
+\multirow{6}{*}{Linear}     & \multirow{6}{*}{82.84}                          & p45k                     & 66.66            & 64.58         & 100                        \\
+                            &                                                 & p100k                    & 66.66            & 61.9          & 89.79                      \\
+                            &                                                 & p141k                    & 80.95            & 76.19         & 100                        \\
+                            &                                                 & p267k                    & 70               & 65            & 95.91                      \\
+                            &                                                 & p279k                    & 71.05            & 60.52         & 97.95                      \\
+                            &                                                 & p295k                    & 81.39            & 79.06         & 100                        \\
+\hline
+\multirow{6}{*}{Polynomial} & \multirow{6}{*}{86.52}                          & p45k                     & 75               & 25            & 95.91                      \\
+                            &                                                 & p100k                    & 98.57            & 66.66         & 89.79                      \\
+                            &                                                 & p141k                    & 88.09            & 78.57         & 100                        \\
+                            &                                                 & p267k                    & 82.5             & 67.5          & 97.95                      \\
+                            &                                                 & p279k                    & 76.31            & 63.15         & 100                        \\
+                            &                                                 & p295k                    & 93.02            & 81.39         & 95.91                      \\
+\hline
+\multirow{6}{*}{RBF}        & \multirow{6}{*}{86.58}                          & p45k                     & 79.16            & 77.08         & 89.79                      \\
+                            &                                                 & p100k                    & 78.57            & 69.04         & 87.75                      \\
+                            &                                                 & p141k                    & 88.09            & 78.57         & 100                        \\
+                            &                                                 & p267k                    & 82.5             & 70            & 93.87                      \\
+                            &                                                 & p279k                    & 78.94            & 68.42         & 100                        \\
+                            &                                                 & p295k                    & 93.02            & 86.04         & 97.95                      \\
+\hline
+\multirow{6}{*}{Sigmoid}    & \multirow{6}{*}{83.71}                          & p45k                     & 81.25            & 64.58         & 79.59                      \\
+                            &                                                 & p100k                    & 83.33            & 66.66         & 83.67                      \\
+                            &                                                 & p141k                    & 88.09            & 71.42         & 81.63                      \\
+                            &                                                 & p267k                    & 87.5             & 72.5          & 69.38                      \\
+                            &                                                 & p279k                    & 81.57            & 60.52         & 79.59                      \\
+                            &                                                 & p295k                    & 97.67            & 86.04         & 85.71     \\
+\hline                
+\end{tabular}
+}
+\caption{Accuracy using single universal training dataset}
+\label{tab:universal}
+\end{table}
