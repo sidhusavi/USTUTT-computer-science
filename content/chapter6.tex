@@ -25,7 +25,7 @@ Consider a special case, where $\epsilon = Test Runs$. In our classification pro
 \begin{enumerate}
   \item It is a permanent fault.
   \item A rare case of highly repetitive intermittent fault, and can be said to be \enquote{critical}.
-  \item An extremely rare transient fault, as it happened at the same location and for same input test pattern, in all test runs.
+  \item An extremely rare transient fault, as it happened at the same location and for same input test pattern, in all of the test runs.
 \end{enumerate}
 
 In the other direction, for permanent faults $\epsilon = Test Runs$ holds true, except a rare possibility that transient noise affects all the test patterns, which have resulted in failure at POs, in at least one of test runs. This is also an extremely rare possibility. Hence we assume that, a fault is permanent if and only if $\epsilon = Test Runs$.
@@ -38,8 +38,9 @@ First set of experiments consist of evaluation of accuracy levels without assign
 This set of experiments consist of two rounds each for each kernel, first one includes permanent faults in sample population, the other one without considering them. A round with permanents is carried out only to evaluate change in accuracy levels of classification.
 
 \subsection{Linear Kernel}
+Accuracy of SVM using linear kernel is summarized in table~\ref{tab:linwp} with considering permanent faults in sample population, and the same without considering permanents is summarized in table~\ref{tab:linwop}.
 \begin{table}[h]
-\label{tab:linwp}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccccc}
 \hline
@@ -55,10 +56,11 @@ p295k                                        & 89.84                            
 \hline                                        
 \end{tabular}
 \caption {Classification accuracy for linear kernel}
+\label{tab:linwp}
 \end{table}
 
 \begin{table}[h]
-\label{tab:linwop}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
@@ -74,6 +76,7 @@ p295k                    & 89.17                             & 90.69          & 
 \hline            
 \end{tabular}
 \caption {Classification accuracy for linear kernel, without permanent faults}
+\label{tab:linwop}
 \end{table}
 
 
@@ -81,7 +84,7 @@ p295k                    & 89.17                             & 90.69          & 
 
 
 \begin{table}[h]
-\label{tab:polywp}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccccc}
 \hline
@@ -97,10 +100,11 @@ p295k                    & 90.78                             & 100           & 9
 \hline                                                     
 \end{tabular}
 \caption {Classification accuracy for polynomial kernel}
+\label{tab:polywp}
 \end{table}
 
 \begin{table}[h]
-\label{tab:polywop}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
@@ -116,13 +120,14 @@ p295k                    & 92.28                             & 93.02          & 
 \hline
 \end{tabular}
 \caption {Classification accuracy for polynomial kernel, without permanent faults}
+\label{tab:polywop}
 \end{table}
 
 
 
 \subsection{RBF Kernel}
 \begin{table}[h]
-\label{tab:rbfwp}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccccc}
 \hline
@@ -138,10 +143,11 @@ p295k                    & 91.00                             & 100           & 1
 \hline                                                     
 \end{tabular}
 \caption {Classification accuracy for RBF kernel}
+\label{tab:rbfwp}
 \end{table}
 
 \begin{table}[h]
-\label{tab:rbfwop}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
@@ -157,12 +163,13 @@ p295k                    & 85.64                             & 78.92          & 
 \hline
 \end{tabular}
 \caption {Classification accuracy for RBF kernel, without permanent faults}
+\label{tab:rbfwop}
 \end{table}
 
 \subsection{Sigmoid Kernel}
 
 \begin{table}[h]
-\label{tab:sigwp}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccccc}
 \hline
@@ -178,11 +185,12 @@ p295k                    & 85.09                             & 98.21         & 9
 \hline                                                     
 \end{tabular}
 \caption {Classification accuracy for sigmoid kernel}
+\label{tab:sigwp}
 \end{table}
 
 
 \begin{table}[h]
-\label{tab:sigwop}
+
 	\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
@@ -198,6 +206,7 @@ p295k                    & 92.16                             & 93.02          & 
 \hline
 \end{tabular}
 \caption {Classification accuracy for sigmoid kernel, without permanent faults}
+\label{tab:sigwop}
 \end{table}
 
 \subsection{Analysis of intermittent fault classification}
