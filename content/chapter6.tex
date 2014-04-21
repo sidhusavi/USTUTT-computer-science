@@ -20,7 +20,7 @@ In the presented evaluation, cross-validation accuracy is also noted for each se
 In the first part analyzes classification efficiency after grid search for optimal values of $C$ and $\gamma$, but does not consider any other optimization, detailed account of results are presented for each kernel type available in \texttt{LIBSVM}. Second part improvises the first, and results are noted after optimization of so-called \emph{class-weights}. Third part explores two possibilities -that of using one  of using single prediction model for predicting all types of circuits, and second to extrapolating known model to predict new circuit types. The last part tries to evaluate impact on yield and quality of final product after application of suggested method.
 
 \section{Classification of permanent faults}
-
+\label{sec:wp}
 Consider a special case, where $\epsilon = Test Runs$. In our classification problem this can mean,
 \begin{enumerate}
   \item It is a permanent fault.
@@ -109,8 +109,7 @@ Accuracy of SVM using polynomial kernel is summarized in table~\ref{tab:polywp} 
 Accuracy of classification of permanent faults, without noise in case of polynomial kernel is observed to be even higher than linear kernel. For permanents with noise, classification rates are almost similar. Intermittent faults with permanents in first round, without noise are deteriorating in some cases, while improving significantly in others. With noise, however, accuracy of intermittent fault classification is improved. Classification accuracy of transient faults is decreased as compared to linear kernel.
 
 \begin{table}[h]
-
-	\captionsetup{justification=centering}
+\captionsetup{justification=centering}
 \begin{tabular}{ccccc}
 \hline
 \multirow{3}{*}{Circuit} & \multicolumn{4}{c}{Accuracy (\%)}\\ \cline{2-5} 
@@ -170,7 +169,7 @@ A notable observation in case of RBF kenrel is its comparatively higher cross-va
 p45k                     & 87.56                             & 77.08          & 70.83           & 91.83                      \\
 p100k                    & 83.33                             & 78.57          & 64.28           & 89.79                      \\
 p141k                    & 86.53                             & 83.33          & 80.95           & 100                        \\
-p267k                    & 80.19                             & 82.50          & 70.00           & 95.91                      \\
+p267k                    & 80.19                             & 82.50          & 70.00           & 92.34                      \\
 p279k                    & 85.64                             & 78.92          & 76.31           & 95.91                      \\
 p295k                    & 85.64                             & 79.06          & 76.31           & 95.91  						  \\
 \hline
@@ -227,8 +226,11 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:sigwop}
 \end{table}
 
-\subsection{Analysis of intermittent fault classification}
+This set of experiments show that the relative accuracy levels for fault classification actually increase if the sample population and test data is pre-screened for permanents faults. Hence for the rest of the evaluation,  all experiments are done by considering that sample population consists of intermittent and transient faults only.
 
+\subsection{Analysis of intermittent fault classification}
+\label{sec:wp:intanalysis}
+The first set of experiments reveal that the classification accuracy for intermittent faults comparatively low as compared to other fault types. Hence more detailed analysis is done, which can provide some hints about the improvement of intermittent fault classification accuracy. First, an analysis is done about how fault activation rates might be affecting classification accuracy. Table~\ref{tab:intdetail} summarizes the result of this analysis and it notes accuracy results for different intermittent fault activation rates, for examples in the test dataset. For this analysis, a subset of circuits were analyzed using all four kernels of \texttt{LIBSVM}.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -260,6 +262,8 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:intdetail}
 \end{table}
 
+The analysis shows that, accuracy levels are fairly high for high fault activation rates of intermittent faults, but go on deteriorating for lower values of fault activation rates. The main reason this behavior is that, at lower fault activation rates of $10^{-3}$, the behavior of transient faults (activation rates for which are $10^{-2}$ to $10^{-4}$) matches behavior of intermittents, and the learning algorithm fails to separate both from each other. This suggests that, instances where intermittent failures occurred only once and did not repeat themselves, are not able to convey enough information in their extracted features. To further elaborate this, accuracy analysis for the same circuits from table~\ref{tab:intdetail} is done by removing those intermittent faults from the test set, whose reproducibility ($\epsilon$) is less than one. The results of this analysis are presented in table~\ref{tab:intsweep}.
+
 \begin{table}[h]
 \begin{tabular}{ccccc}
 \hline
@@ -286,7 +290,56 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:intsweep}
 \end{table}
 
+The analysis from table~\ref{tab:intsweep} shows that, if we remove such data from the test set, classification of intermittent faults is accurate. Accuracy of transient fault classification remains the same as the same classifier model and the same test dataset for transient faults is used as earlier experiments.
+
 \section{With class-weight optimization}
+\label{sec:ww}
+The other possibility than the one suggested in the section~\ref{sec:wp:intanalysis} is to balance the training dataset. An unbalanced dataset is a possibility in our case, as we have set a tolerance of $\pm$ 75 examples, as explained in section~\ref{sec:gsp:configuration}. Class-weights are used while training the SVM by adding a penalty to samples of particular class, compensate for the unavailability of enough positive examples for that class. To other way to look at this, is that, when we apply class-weights, we deliberately underfit examples of those particular classes.
+
+\texttt{LIBSVM} provides a functionality to adjust individual class weights, to bias classification towards a specified class using \texttt{-wi} switch. We can use this functionality to:
+\begin{itemize}
+  \item Fine-tune $C$ values for optimal classification. This way we can have a classifier which can separate most of examples in dataset.
+  \item Optimize classifier for classifying one type of faults more accurately than the other.This is particularly useful the user is more interested in optimizing for the quality, then he may wish to reject all chips with a slightest possibility of intermittent failure. In this case classifier can be optimized for classifying intermittent faults more accurately. On the other hand, if user wants to optimize for quality, classifier can be tuned to classify transient faults more accurately.
+\end{itemize}  
+
+Table~\ref{tab:optp267k} shows accuracy values, when optimizations mentioned above are performed.
+
+\begin{table}[h]
+\captionsetup{justification=centering}
+\begin{tabular}{cccccc}
+\hline
+\multirow{3}{*}{Kernel}     & \multirow{3}{*}{Optimization Criterion} & \multirow{3}{*}{Class-weights \{\texttt{I,T}\}} & \multicolumn{3}{c}{Classification accuracy (\%)}              \\ \cline{4-6} 
+                            &                                         &                                                   & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{4-5}
+                            &                                         &                                                   & w/o noise      & with noise      &                            \\ \hline
+\multirow{3}{*}{linear}     & Intermittent                            & \{1.5,1\}                                         & 100            & 100             & 22.44                      \\
+                            & Transient                               & \{1,1\}                                           & 80.00          & 55.00           & 100                        \\
+
+                            & All                               & \{1.9,1.8\}                                           & 72.5          & 67.5           & 95.91                        \\
+\hline
+\multirow{3}{*}{polynomial} & Intermittent                            & \{1.85,1.05\}                                     & 97.50          & 80.00           & 20.00                      \\
+                            & Transient                               & \{1.3,1.95\}                                      & 82.50          & 67.50           & 97.95                      \\
+
+                            & All                               & \{1.9,1.25\}                                           & 95.00          & 78.00           & 77.5                        \\
+\hline
+\multirow{3}{*}{RBF}        & Intermittent                            & \{1.75,1.15\}                                     & 95.00          & 72.50           & 89.79                      \\
+                            & Transient                               & \{1.2,1.3\}                                       & 72.50          & 70.00           & 95.91                      \\
+
+                            & All                               & \{1,1\}                                           & 82.50          & 70.00           & 92.34                        \\
+\hline
+\multirow{3}{*}{sigmoid}    & Intermittent                            & \{1.7,1.1\}                                       & 85.00          & 77.50           & 65.30                      \\
+                            & Transient                               & \{1.9,1.8\}                                       & 82.5           & 57.5            & 100                       \\
+
+                            & All                               & \{1.7,1.75\}                                           & 82.50          & 47.00           & 100                        \\
+\hline
+\end{tabular}
+\caption{Accuracy after class-weight optimization for p267k}
+\label{tab:optp267k}
+\end{table}
+
+To find out optimal values of weights in case of optimization for intermittent and transient faults, an exhaustive search of combinations of class-weights for \texttt{I} and \texttt{T} classes is performed. For experimental purpose, a limited search of region [1,2] with steps of 0.5 for combinations of class-weights is performed. Heat-maps for this search are shown in figure~\ref{fig:heatmap} for p267k.
+
+Optimization for \enquote{All} labels is done by considering weights corresponding to highest cross-validation accuracy. After class-weight optimization, accuracy levels are observed to be improved as compared to the same analysis done in section~\ref{sec:wp}.
+
 
 \begin{figure}
         \centering
@@ -327,37 +380,17 @@ p295k                    & 92.28                             & 93.02          & 
                 \caption{Transient fault accuracy, sigmoid kernel}
         \end{subfigure}
 
-        \caption{Plots of acccuracy by varying class-weights for p256k}
-        \label{fig:sdevidance} 
+        \caption{Plots of accuracy by varying class-weights for p256k}
+        \label{fig:heatmap} 
 \end{figure}
 
-\begin{table}[h]
-\captionsetup{justification=centering}
-\begin{tabular}{cccccc}
-\hline
-\multirow{3}{*}{Kernel}     & \multirow{3}{*}{Optimization Criterion} & \multirow{3}{*}{Class-weights \{\texttt{I,T}\}} & \multicolumn{3}{c}{Classification accuracy (\%)}              \\ \cline{4-6} 
-                            &                                         &                                                   & \multicolumn{2}{c}{Intermittent} & \multirow{2}{*}{Transient} \\ \cline{4-5}
-                            &                                         &                                                   & w/o noise      & with noise      &                            \\ \hline
-\multirow{2}{*}{linear}     & Intermittent                            & \{1.5,1\}                                         & 100            & 100             & 22.44                      \\
-                            & Transient                               & \{1,1\}                                           & 80.00          & 55.00           & 100                        \\
-\hline
-\multirow{2}{*}{polynomial} & Intermittent                            & \{1.85,1.05\}                                     & 97.50          & 80.00           & 20.00                      \\
-                            & Transient                               & \{1.3,1.95\}                                      & 82.50          & 67.50           & 97.95                      \\
-\hline
-\multirow{2}{*}{RBF}        & Intermittent                            & \{1.75,1.15\}                                     & 95.00          & 72.50           & 89.79                      \\
-                            & Transient                               & \{1.2,1.3\}                                       & 72.50          & 70.00           & 95.91                      \\
-\hline
-\multirow{2}{*}{sigmoid}    & Intermittent                            & \{1.7,1.1\}                                       & 85.00          & 77.50           & 65.30                      \\
-                            & Transient                               & \{1.9,1.8\}                                       & 82.5           & 57.5            & 100                       \\
-\hline
-\end{tabular}
-\caption{Accuracy after class-weight optimization for p267k}
-\label{tab:optp267k}
-\end{table}
 
-\section{Training using universal datasets}
 
-\subsection{Using known model to extrapolate results}
+\section{Classification using extrapolation of known training datasets}
+So far evaluation of test data is done using a sample population of of the same circuit type. In this section two other possibilities are considered. First, to use a sample population of known circuit type, to classify data of other circuit type. Second, to have a single training dataset, and use a classifier model built from this to predict example data of a circuit type, whose sample population is present in this \emph{universal} dataset.
+
+\subsection{Using single known model for classification}
+In practical situations, we might not have the necessary training data for a new product, especially at the start of production. This section explores possibility of extrapolating known datasets for new circuit types. This set of experiments are done using training data of p295k to predict test sets of other circuit types. p295k is chosen as sample population as it provided with relatively most accurate results in first set of experiments. The results obtained are summarized in table~\ref{tab:univ295k}.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -373,19 +406,19 @@ p295k                    & 92.28                             & 93.02          & 
                             &                                                 & p267k                    & 77.5             & 62.5          & 100                        \\
                             &                                                 & p279k                    & 78.94            & 57.89         & 97.95                      \\
 \hline
-\multirow{5}{*}{polynomial} & \multirow{5}{*}{92.28}                          & p45k                     & 79.16            & 81.63         & 75.51                      \\
+\multirow{5}{*}{Polynomial} & \multirow{5}{*}{90.78}                          & p45k                     & 79.16            & 81.63         & 75.51                      \\
                             &                                                 & p100k                    & 78.57            & 76.19         & 73.46                      \\
                             &                                                 & p141k                    & 88.09            & 80.95         & 91.83                      \\
                             &                                                 & p267k                    & 82.5             & 77.5          & 87.75                      \\
                             &                                                 & p279k                    & 78.94            & 76.31         & 97.95                      \\
 \hline
-\multirow{5}{*}{RBF}        & \multirow{5}{*}{92.16}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
+\multirow{5}{*}{RBF}        & \multirow{5}{*}{92.28}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
                             &                                                 & p100k                    & 78.57            & 73.8          & 71.42                      \\
                             &                                                 & p141k                    & 88.09            & 80.95         & 97.95                      \\
                             &                                                 & p267k                    & 82.5             & 72.5          & 89.79                      \\
                             &                                                 & p279k                    & 78.94            & 71.05         & 100                        \\
 \hline
-\multirow{5}{*}{Sigmoid}    & \multirow{5}{*}{92.16}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
+\multirow{5}{*}{Sigmoid}    & \multirow{5}{*}{85.64}                          & p45k                     & 79.16            & 81.25         & 73.46                      \\
                             &                                                 & p100k                    & 78.57            & 73.8          & 71.42                      \\
                             &                                                 & p141k                    & 88.09            & 80.95         & 97.95                      \\
                             &                                                 & p267k                    & 82.5             & 72.5          & 89.79                      \\
@@ -393,13 +426,15 @@ p295k                    & 92.28                             & 93.02          & 
 \hline
 \end{tabular}
 }
-\caption{My caption}
-\label{my-label}
+\caption{Accuracy by extrapolating training dataset of p295k to test other circuits}
+\label{tab:univ295k}
 \end{table}
 
+Comparison with results from those obtained in section~\ref{sec:wp}, shows an increase in accuracy levels. This can be attributed to two factors, a comparatively balanced dataset of p295k and high cross-validation accuracy levels of this dataset. Hence it is observed that, using a good-quality known dataset, examples from other circuit types can be classified with acceptable accuracy levels.
 
+\subsection{Using a universal training set for classification}
 
-\subsection{Using single training set for prediction}
+In this set of experiments, a single universal sample population is built using sample populations of individual circuit types. The aim of this experiment to check a possibility of building an incremental universal dataset, which is able to classify data from any of known circuit types. Table~\ref{tab:universal} summarizes results observed.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -442,3 +477,7 @@ p295k                    & 92.28                             & 93.02          & 
 \caption{Accuracy using single universal training dataset}
 \label{tab:universal}
 \end{table}
+
+The universal dataset is also able to classify faults fairly accurately. Using polynomial and RBF kernels, accuracy levels of both intermittent and transient fault classification increased considerably, at the same time. This is mainly because of increase of sample population providing  higher number of positive examples of both classes and eventually resulting in better fitting of hypothesis class. A further increase in accuracy levels, for both or any one of fault types is possible using techniques discussed in section~\ref{sec:ww}.
+
+
