@@ -1,9 +1,31 @@
 %Die Angabe des schlauen Spruchs auf diesem Wege funtioniert nur,
 %wenn keine Änderung des Kapitels mittels den in preambel/chapterheads.tex
 %vorgeschlagenen Möglichkeiten durchgeführt wurde.
-\chapter{Conclusion}
+\chapter{Conclusion and Future Work}
 \label{chap:chapter7}
 %\vspace{-3cm}
 %\vspace{2cm}
 \section{Conclusion}
-\section{Future Work}
+
+This thesis presented a possibility of using SVM based machine learning approach for fault classification of semiconductor chips. The chips tested showed moderate to high overall accuracy levels for fault classification. Classification of permanent faults showed no significant issues as they are repeatable and their failures are localized to a set of primary outputs. Separating intermittent faults, when their fault activation rates are in lower range and same as those for transient faults, presents a significant challenge as their fault behavior is similar to each other. However, the results show that intermittent faults, at higher fault activation rates are upto 100\% separable from transient faults, even in presence of background noise.
+
+
+Different kernels were used for SVM and it can be concluded that, selection of kernel primarily depends on the nature of feature space of the subject sample population. High cross-validation accuracy is a good indicator for accuracy and should be used for selection of kernel. However, too-high cross-validation accuracy values might indicate that kernel is overfitting, and it should be then tested with a separate test dataset, and this accuracy should also be considered for kernel selection. Also from the background research for this thesis, it is clear that selection of features plays a crucial role in efficiency, irrespective of chosen algorithm and kernel. A well-balanced dataset, containing equal number of positive and negative examples, is also important in determining performance of the SVM. The imbalance in sample population can somewhat be remedied using class-weights.
+
+A set of experiments was also carried out to assess a possibility of using sample population from one known circuit type, which showed good accuracy levels, to classify faults on unknown circuit types. The experiments show that, this is indeed possible and the accuracy levels were were comparable to, or even better in some cases as compared to those obtained for the same circuits using their own sample population. In a different experiment,  a universal training dataset was also constructed from all known circuit types and result obtained were comparable to those from individual training datasets.
+
+This thesis also proposes a solution were user can optimize fault classification for yield or for quality. In a practical situation where user wants to focus more yield of product and not so much on quality, he can make use of class weights to bias the algorithm to reject chips which showed permanent faults and only severe intermittent faults. On the other hand, when user wishes to focus more on quality, he can choose to add higher weight for intermittent faults, and algorithm will reject all permanents and most of intermittents.
+
+Going back, the motivation of this thesis was to separate critical fault from non-critical ones, to improve yield. The criticality of a fault is an abstract concept and its definition varies as per the application domain of the product. With use of class weights, user should be able to adjust the yield-quality trade-off.
+
+To conclude, machine learning is presented as a feasible option for fault classification. This approach does not require expert knowledge, except during feature selection phase, as once feature selection is done, same features can be used for classification of faults on different circuit types, a certain advantage, unlike rule-based classification approaches where threshold values need to be adjusted by experts for every individual product and technology. Another benefit is that, once training data is ready, machine learning is automated and can be used as a black-box approach to classification. Moreover, the existing classification model can be made adaptive by importing sample populations for new circuit types, making machine learning highly adaptive. 
+
+\section{Future work}
+
+This works presents a preliminary analysis of using SVM as classifier. One of the reasons for choosing SVM for classification, is its strong mathematical foundations \cite{Vapnik1995, Ben-Hur2010} and ability to use multiple kernels for classification. A further analysis is possible using different kernels or algorithms for classification. Classification accuracy has further optimization potential, with use of additional features than those suggested in this work.
+
+The experiments carried out used different circuit types. Results suggested that using a universal model for classification is possible. It might also be possible that, this approach can also work for same circuit types at different technology node. A more elaborate analysis is required to verify the same.
+
+The experiments were carried out using number of $TestRuns = 4$. This figure was set experimentally, to facilitate observability of transient and intermittent failures. Work can be done to ensure practicability of the approach by reducing this number. The sample population was generated by extending simulation framework \texttt{ADAMA}, using fault models already available in the framework. To make approach more precise, additional fault models can be added to generate sample population. A practical solution can also be to use actual manufacturing data from industries, which would be able to replicate more practical failure rates.
+
+

@@ -1,6 +1,19 @@
 % This file was created with JabRef 2.7b.
 % Encoding: UTF-8
 
+@INPROCEEDINGS{Agostinelli2005,
+  author = {Agostinelli, Marty and Hicks, J and Xu, J and Woolery, B and Mistry,
+	K and Zhang, K and Jacobs, S and Jopling, J and Yang, W and Lee,
+	B and others},
+  title = {Erratic fluctuations of SRAM cache Vmin at the 90nm process technology
+	node},
+  booktitle = {In proceedings of Electron Devices Meeting, 2005. IEDM Technical
+	Digest.},
+  year = {2005},
+  pages = {655--658},
+  organization = {IEEE}
+}
+
 @BOOK{Agrawal2000,
   title = {Essentials of Electronic Testing for Digital, Memory and Mixed-Signal
 	VLSI Circuits},
@@ -30,10 +43,30 @@
 	Huisman, Leendert},
   title = {Diagnosing combinational logic designs using the single location
 	at-a-time (SLAT) paradigm},
-  booktitle = {2013 IEEE International Test Conference (ITC)},
+  booktitle = {Proceedings of 2013 IEEE International Test Conference (ITC)},
   year = {2001},
   pages = {287--287},
   organization = {International Test Conference}
+}
+
+@ARTICLE{Bartlett2004,
+  author = {Bartlett, Wendy and Spainhower, Lisa},
+  title = {Commercial fault tolerance: A tale of two systems},
+  journal = {IEEE Transactions on Dependable and Secure Computing},
+  year = {2004},
+  volume = {1},
+  pages = {87--96},
+  number = {1},
+  publisher = {IEEE}
+}
+
+@INCOLLECTION{Ben-Hur2010,
+  author = {Ben-Hur, Asa and Weston, Jason},
+  title = {A user’s guide to support vector machines},
+  booktitle = {Data mining techniques for the life sciences},
+  publisher = {Springer},
+  year = {2010},
+  pages = {223--239}
 }
 
 @ARTICLE{Bondavalli2000,
@@ -41,7 +74,7 @@
 	Felicita and Grandoni, Fabrizio},
   title = {Threshold-based mechanisms to discriminate transient from intermittent
 	faults},
-  journal = {Computers, IEEE Transactions on},
+  journal = {IEEE Transactions on Computers},
   year = {2000},
   volume = {49},
   pages = {230--245},
@@ -75,7 +108,7 @@
 @INPROCEEDINGS{Cohen1995,
   author = {Cohen, William and others},
   title = {Fast effective rule induction},
-  booktitle = {Twelfth International Conference on Machine Learning},
+  booktitle = {Proceedings of 12th International Conference on Machine Learning},
   year = {1995},
   pages = {115--123}
 }
@@ -83,8 +116,7 @@
 @ARTICLE{Constantinescu2007,
   author = {Constantinescu, Cristian},
   title = {Impact of intermittent faults on nanocomputing devices},
-  journal = {Proceedings of IEEE/IFIP DSN-2007 (Supplemental Volume), Edinburgh,
-	UK},
+  journal = {IEEE/IFIP DSN-2007 (Supplemental Volume), Edinburgh, UK},
   year = {2007},
   pages = {238--241}
 }
@@ -109,12 +141,36 @@
   publisher = {IEEE Computer Society Press}
 }
 
+@INCOLLECTION{Cunningham2008,
+  author = {Cunningham, PÃ¡draig and Cord, Matthieu and Delany, SarahJane},
+  title = {Supervised Learning},
+  booktitle = {Machine Learning Techniques for Multimedia},
+  publisher = {Springer},
+  year = {2008},
+  editor = {Cord, Matthieu and Cunningham, PÃ¡draig},
+  series = {Cognitive Technologies},
+  pages = {21-49},
+  isbn = {978-3-540-75170-0}
+}
+
 @INPROCEEDINGS{DeKleer2009,
   author = {De Kleer, Johan},
   title = {Diagnosing Multiple Persistent and Intermittent Faults.},
   booktitle = {IJCAI},
   year = {2009},
   pages = {733--738}
+}
+
+@ARTICLE{DeFries2000,
+  author = {DeFries, RS and Chan, Jonathan Cheung-Wai},
+  title = {Multiple criteria for evaluating machine learning algorithms for
+	land cover classification from satellite data},
+  journal = {Remote Sensing of Environment},
+  year = {2000},
+  volume = {74},
+  pages = {503--515},
+  number = {3},
+  publisher = {Elsevier}
 }
 
 @INPROCEEDINGS{Dharchoudhury1994,
@@ -143,7 +199,7 @@
   author = {El-Khatib, Khalil},
   title = {Impact of feature reduction on the efficiency of wireless intrusion
 	detection systems},
-  journal = {Parallel and Distributed Systems, IEEE Transactions on},
+  journal = {IEEE Transactions on Parallel and Distributed Systems},
   year = {2010},
   volume = {21},
   pages = {1143--1149},
@@ -169,7 +225,7 @@
 @INPROCEEDINGS{Ghate1982,
   author = {Ghate, PB},
   title = {Electromigration-induced failures in VLSI interconnects},
-  booktitle = {20th Annual Reliability Physics Symposium, 1982.},
+  booktitle = {Proceedings of 20th Annual Reliability Physics Symposium, 1982.},
   year = {1982},
   pages = {292--299},
   organization = {IEEE}
@@ -230,7 +286,7 @@
   author = {Iyer, Ravishankar K. and Young, Luke T. and Iyer, P. V. Krishna},
   title = {Automatic recognition of intermittent failures: An experimental study
 	of field data},
-  journal = {Computers, IEEE Transactions on},
+  journal = {IEEE Transactions on Computers},
   year = {1990},
   volume = {39},
   pages = {525--537},
@@ -241,8 +297,7 @@
 @INPROCEEDINGS{John1995,
   author = {John, George H and Langley, Pat},
   title = {Estimating continuous distributions in Bayesian classifiers},
-  booktitle = {Proceedings of the Eleventh conference on Uncertainty in artificial
-	intelligence},
+  booktitle = {Proceedings of the 11th conference on Uncertainty in artificial intelligence},
   year = {1995},
   pages = {338--345},
   organization = {Morgan Kaufmann Publishers Inc.}
@@ -277,6 +332,18 @@
   isbn = {9789380026671}
 }
 
+@ARTICLE{Koggalage2004,
+  author = {Koggalage, Ravindra and Halgamuge, Saman},
+  title = {Reducing the number of training samples for fast support vector machine
+	classification},
+  journal = {Neural Information Processing-Letters and Reviews},
+  year = {2004},
+  volume = {2},
+  pages = {57--65},
+  number = {3},
+  publisher = {Citeseer}
+}
+
 @ARTICLE{Kotsiantis2013,
   author = {Kotsiantis, Sotiris B},
   title = {Decision trees: a recent overview},
@@ -288,13 +355,16 @@
   publisher = {Springer}
 }
 
-@ARTICLE{Kotsiantis2007,
-  author = {Kotsiantis, Sotiris B},
-  title = {Supervised machine learning: a review of classification techniques.},
-  journal = {Informatica (03505596)},
+@INPROCEEDINGS{Kotsiantis2007,
+  author = {Kotsiantis, S. B.},
+  title = {Supervised Machine Learning: A Review of Classification Techniques},
+  booktitle = {Proceedings of the 2007 Conference on Emerging Artificial Intelligence
+	Applications in Computer Engineering: Real Word AI Systems with Applications
+	in eHealth, HCI, Information Retrieval and Pervasive Technologies},
   year = {2007},
-  volume = {31},
-  number = {3}
+  pages = {3--24},
+  address = {Amsterdam, The Netherlands, The Netherlands},
+  publisher = {IOS Press}
 }
 
 @BOOK{Larsson2006,
@@ -310,6 +380,7 @@
 @PHDTHESIS{Lehtonen2009,
   author = {Lehtonen, Teijo and others},
   title = {On fault tolerance methods for networks-on-chip},
+  school = {Department of Information Technology ,University of Turku, Finland},
   year = {2009},
   publisher = {TUCS Dissertations 122}
 }
@@ -325,11 +396,30 @@
   publisher = {IEEE}
 }
 
+@BOOK{Michie1994,
+  title = {Machine Learning, Neural and Statistical Classification},
+  publisher = {Ellis Horwood},
+  year = {1994},
+  author = {Michie, Donald and Spiegelhalter, D. J. and Taylor, C. C. and Campbell,
+	John},
+  address = {Upper Saddle River, NJ, USA}
+}
+
 @BOOK{Mitchell1997,
   title = {Machine learning},
   publisher = {McGraw Hill},
   year = {1997},
   author = {Mitchell, T. M.}
+}
+
+@INCOLLECTION{Mitra2008,
+  author = {Mitra, Subhasish and Zhang, Ming and Seifert, Norbert and Mak, TM
+	and Kim, Kee Sup},
+  title = {Soft error resilient system design through error correction},
+  booktitle = {VLSI-SoC: Research Trends in VLSI and Systems on Chip},
+  publisher = {Springer},
+  year = {2008},
+  pages = {143--156}
 }
 
 @ARTICLE{Nguyen2008,
@@ -395,10 +485,11 @@
 
 @ARTICLE{Savir1980,
   author = {Savir, Jacob},
-  title = {length M. Each set of curves approaches limiting curve for large},
+  title = {Detection of single intermittent faults in sequential circuits},
   journal = {IEEE Transactions on Computers},
   year = {1980},
   volume = {100},
+  pages = {673--678},
   number = {29}
 }
 
@@ -413,6 +504,17 @@
   publisher = {ACM}
 }
 
+@INPROCEEDINGS{Srinivasan2004,
+  author = {Srinivasan, Jayanth and Adve, Sarita V and Bose, Pradip and Rivers,
+	Jude A},
+  title = {The impact of technology scaling on lifetime reliability},
+  booktitle = {Proceedings of 2004 International Conference on Dependable Systems
+	and Networks},
+  year = {2004},
+  pages = {177--186},
+  organization = {IEEE}
+}
+
 @ARTICLE{Stathis2001,
   author = {Stathis, James H},
   title = {Physical and predictive models of ultrathin oxide reliability in
@@ -425,11 +527,22 @@
   publisher = {IEEE}
 }
 
-@ARTICLE{Vapnik1995,
-  author = {Vapnik, Vladimir N},
+@INCOLLECTION{Tanwani2009,
+  author = {Tanwani, Ajay Kumar and Afridi, Jamal and Shafiq, M Zubair and Farooq,
+	Muddassar},
+  title = {Guidelines to select machine learning scheme for classification of
+	biomedical datasets},
+  booktitle = {Evolutionary Computation, Machine Learning and Data Mining in Bioinformatics},
+  publisher = {Springer},
+  year = {2009},
+  pages = {128--139}
+}
+
+@BOOK{Vapnik1995,
   title = {The Nature of Statistical Learning Theory},
+  publisher = {springer},
   year = {1995},
-  publisher = {Citeseer}
+  author = {Vapnik, Vladimir N}
 }
 
 @INPROCEEDINGS{Wagner1995,
@@ -446,8 +559,8 @@
 @INPROCEEDINGS{Wang2010,
   author = {Wang, L-C},
   title = {Data learning based diagnosis},
-  booktitle = {15th Asia and South Pacific Design Automation Conference (ASP-DAC),
-	2010},
+  booktitle = {Proceedings of 15th Asia and South Pacific Design Automation Conference
+	(ASP-DAC), 2010},
   year = {2010},
   pages = {247--254},
   organization = {IEEE}
@@ -472,6 +585,13 @@
   pages = {5--16},
   number = {5},
   publisher = {ACM}
+}
+
+@ELECTRONIC{Matlab2014,
+  year = {2014},
+  title = {Supervised Learning (Machine Learning) Workflow and Algorithms {From
+	MathWorks Documentation}},
+  url = {http://www.mathworks.de/de/help/stats/supervised-learning-machine-learning-workflow-and-algorithms.html}
 }
 
 @MANUAL{AnalogDevices2000,
