@@ -5,7 +5,7 @@
 \label{chap:chapter5}
 %\vspace{-3cm}
 %\vspace{2cm}
-With the selection of features and their extraction and selection of the machine learning algorithm, as SVM explained in earlier chapter, this chapter explains the experimental setup. This chapter focuses on two topics - first part being the assumptions for the test setup and the configuration of the sample population as well as the method used to generate the sample population, explained in the section~\ref{sec:gsp}. Second part, section~\ref{sec:libsvm} describes the SVM library used for training and classification of faults and its interface with generated samplae population.
+With the selection of features and their extraction and selection of the machine learning algorithm, as SVM explained in earlier chapter, this chapter explains the experimental setup. This chapter focuses on two topics - first part being the assumptions for the test setup and the configuration of the sample population as well as the method used to generate the sample population, explained in the section~\ref{sec:gsp}. Second part, section~\ref{sec:libsvm} describes the SVM library used for training and classification of faults and its interface with generated sample population.
 \section{Generation of sample population}
 \label{sec:gsp}
 Sample population is required to train and cross-validate the machine learning based classifier (hereon referred simply as \emph{classifier}). A separate set of data is used to test the accuracy of the classifier.
@@ -34,7 +34,7 @@ For the purpose of running experiments uniformly on different circuit types, a s
 			\item Intermittent faults (fault rate = 0.1, 0.01 0.001) with label \texttt{I}.
     		\item Intermittent faults (fault rate = 0.1, 0.01, 0.001) along with transient noise (fault rate = 0.001) with label \texttt{I}.
 			\item Transient faults (fault rate = 0.01, 0.001, 0.0001) with label \texttt{T}.
-		\item Permanent faults are modeled using stuck-at, wired or delay faults, Intemittents are modeled using high frequency power droop, and transient faults are modeled as conditional stuck-at faults at random locations, triggered using deterministic fault rate.
+		\item Permanent faults are modeled using stuck-at, wired or delay faults, Intermittents are modeled using high frequency power droop, and transient faults are modeled as conditional stuck-at faults at random locations, triggered using deterministic fault rate.
  		 \end{enumerate}
   \item Test data has 250 ($\pm$ 15) labeled examples, with same configuration as that for sample population.
 \end{enumerate}
@@ -83,7 +83,7 @@ Sequence of steps followed to train SVM, as shown in figure~\ref{fig:libsvmtrain
 \begin{description}
    \item[Format conversion] \texttt{LIBSVM} requires an input in \emph{sparse} format. A utility function \texttt{convert}, provided by authors of \texttt{LIBSVM} has been extended to be compatible with the CSV format output of \texttt{spgen}.
 
-  \item[Scaling] \texttt{svm-scale} executable file in \texttt{LIBSVM} provides functionality to scale the training data to user specified input range. Documentation of \texttt{LIBSVM} \cite{Hsu2003} suggest use of range [0,1] for the data containing zero values for some of feaures, as in our case. The scaling parameters are stored in a \emph{range file}, which is later used to scale features of future examples or the test data.
+  \item[Scaling] \texttt{svm-scale} executable file in \texttt{LIBSVM} provides functionality to scale the training data to user specified input range. Documentation of \texttt{LIBSVM} \cite{Hsu2003} suggest use of range [0,1] for the data containing zero values for some of features, as in our case. The scaling parameters are stored in a \emph{range file}, which is later used to scale features of future examples or the test data.
   
   \item[Grid search for C and $\gamma$] \texttt{LIBSVM} provides a script to find suitable values of C and $\gamma$. The grid search algorithm uses $v$-fold cross-validation (CV), meaning that the data is divided into $v$ subsets and one subset is tested against classifier trained with rest of $v-1$ subsets, iteratively until complete training set is covered \cite{Hsu2003}. This results in the training data being tested once completely, and the corresponding accuracy is called as \emph{cross-validation accuracy}. The algorithm then tries various pairs of C and $\gamma$ to find a pair with the highest CV accuracy. This script internally uses \texttt{svm-train} for modeling classifiers, to calculates CV accuracy, hence the kernel type for training needs to be specified. This script was extended to take kernel type as input.
  
