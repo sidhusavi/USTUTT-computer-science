@@ -85,7 +85,7 @@ Some of the common sources for intermittent faults are described below:
 
 Once intermittent fault appears in the system, its probability of recurrence increases with time\cite{Bondavalli2000}. These faults are localized on the chip. They will affect the same set of primary outputs (POs) on recurrence. Intermittent faults have tendency to occur in bursts \cite{Constantinescu2007, Constantinescu2003}. Intermittent faults are not reproducible every time for same set of test patterns. Intermittent faults only go away once the offending component is replaced \cite{Constantinescu2007}.
 
-Intermittent faults can be modeled as conditional stuck-at faults, activated by trigger condition. The activation condition can be expressed as boolean function and can depend on timing or environmental conditions \cite{Holst2009}.
+Intermittent faults can be modeled as conditional stuck-at faults, activated by trigger condition. The activation condition can be expressed as Boolean function and can depend on timing or environmental conditions \cite{Holst2009}.
 
 \begin{description}
 \item[High frequency power droop:] This type of fault occurs when specific set of input causes power starvation in some other part of the chip. Hence, this fault is modeled as a set of aggressor lines $a_1,a_2,...$ and a victim line $v$ \cite{Polian2007}. The fault occurs on victim line, due to presence of aggressor lines.
@@ -144,7 +144,7 @@ Another approach using diagnostic probabilities in \cite{DeKleer2009} is able to
 \label{sec:secfd}
 \emph{Diagnosis} is the process of locating faults in a physical chip at the various levels down to real defects. In traditional fault-dictionary based diagnosis, we are given two sets of data, a \emph{predicted output} $P$ which is set of outputs when fault a particular fault is active in the system, a \emph{measured set} $M$, which is observed fault behavior and corresponding fault $ f_i \in \{f_1,f_2,...,f_n\} $. When the two sets match i.e. $P = M$ the corresponding fault is diagnosed to be active . When $P \neq M$ then logic diagnosis tries to find best fitting explanation. However it is practically infeasible to construct such fault dictionaries for modern circuits, as the fault dictionary should consist of all possible faults and their combinations \cite{Wang2010}. 
 
-An adaptive approach which does not use fault dictionaries called \emph{Partially Overlapping Impact couNTER} (POINTER) for diagnosis is described in \cite{Holst2009}. This approach uses test pattern sets with \emph{Single Location At a Time} (SLAT) property \cite{Bartenstein2001} to diagnose faults present in the circuit. The author in \cite{Holst2009} defines a \emph(Fault Machine) (FM), \emph{i.e.} a reference circuit with stuck-at faults injected. As shown in figure~\ref{fig:evidance} tuple of parameters called \emph{evidance} is defined as,
+An adaptive approach which does not use fault dictionaries called \emph{Partially Overlapping Impact couNTER} (POINTER) for diagnosis is described in \cite{Holst2009}. This approach uses test pattern sets with \emph{Single Location At a Time} (SLAT) property \cite{Bartenstein2001} to diagnose faults present in the circuit. The author in \cite{Holst2009} defines a \emph(Fault Machine) (FM), \emph{i.e.} a reference circuit with stuck-at faults injected. As shown in figure~\ref{fig:evidance} tuple of parameters called \emph{evidence} is defined as,
 
 \[e(f,T) = \{\sigma_T, \iota_T, \tau_T, \gamma_T\}\]. 
 
