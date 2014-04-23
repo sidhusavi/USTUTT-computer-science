@@ -5,40 +5,44 @@
 \label{chap:chapter6}
 %\vspace{-3cm}
 %\vspace{2cm}
-This chapter presents results of classification using the experimental setup described in the chapter~\ref{chap:chapter6}. The term \emph{Classification accuracy} of a class used in this chapter is defined as,
+This chapter presents results of classification using the experimental setup described in chapter~\ref{chap:chapter6}. The term \emph{classification accuracy} of a class used in this chapter is defined as,
 
-\[ \begin{array}{ll} accuracy(r_i) = \frac{\mbox{Samples correctly predicted as $r_i$}}
-								{\mbox{Total samples with label $r_i$}}
+\[ \begin{array}{ll} \mbox{classification accuracy}(l_i) = \frac{\mbox{Samples correctly predicted as $l_i$}}
+								{\mbox{Total samples with label $l_i$}}
 							\times 100 & 
-							\forall \,r_i \in \{\mbox{\texttt{P,I,T}}\} 
+							\forall \,l_i \in \{\mbox{\texttt{P,I,T}}\} 
 	\end{array}\]
 
-Where, $r$ is the label of test sample $x=\{\boldsymbol{x},r\}$.
+Where, $l$ is the label of test sample $x=\{\boldsymbol{x},l\}$.
 
-In the presented evaluation, the cross-validation accuracy is also noted for each set of experiments, as this is the value of accuracy during the self-validation of much larger training set.
+In the presented evaluation, the cross-validation accuracy defined in the section~\ref{sec:impl:tr} is also noted for each set of the experiments, as this is the value of accuracy during the self-validation of much larger training set.
 
-In the first part analyzes classification efficiency after the grid search for optimal values of $C$ and $\gamma$, but does not consider any other optimization, a detailed account of results are presented for each kernel type available in \texttt{LIBSVM}. The second part improvises the first, and results are noted after optimization of so-called \emph{class-weights}. The third part explores two possibilities - that of using one of the using a single prediction model for predicting all types of circuits, and the second, to extrapolate a known model to predict new circuit types. The last part tries to evaluate the impact on yield and the quality of the final product after application of the suggested method.
+All experiments performed are done after selecting optimal values of $C$ and $\gamma$, obtained using grid search. In the first part of this chapter, the classification accuracy for each of the kernel in \texttt{LIBSVM} is evaluated, to check their performance for different fault types and in presence of transient noise. The second part tries to explore the possibility of optimizing the classifier for yield or quality of product. This is done with help of experiments carried out by improving accuracy levels of one type of faults at the expense of the others. The third part explores two possibilities - that of using one of the using a single prediction model for predicting all types of circuits, and the second, to use a model trained with a known circuit to classify test data from new, unknown circuits.
 
 \section{Classification of permanent faults}
 \label{sec:wp}
-Consider a special case, where $\epsilon = Test Runs$. In our classification problem this can mean,
+When a test pattern is able to detect permanent fault in the circuit, running the same pattern again would result in same faulty output every time. Hence it is easy to detect a permanent fault in the circuit. This is also shown to be true in the literature survey presented in the chapter~\ref{chap:chapter2}. Hence, in the experimental evaluation the sample population and test data are pre-screened for permanent faults before the classifier is trained.
+
+Consider a the case, where the value of fault reproducibility defined in the section~\ref{sec:secfs}), $\epsilon = Test Runs$. In our classification problem this can mean,
 \begin{enumerate}
   \item It is a permanent fault.
   \item A rare case of highly repetitive intermittent fault, and can be assumed to be \enquote{critical}.
   \item An extremely rare case of a transient fault, as it happened at the same location and for same input test pattern, in all of the test runs.
 \end{enumerate}
 
-In the other direction, for permanent faults $\epsilon = Test Runs$ holds true, except a rare possibility that the transient noise affects all of the test patterns, which have resulted in a failure at POs, in at least one of the test runs. This is also an extremely rare possibility. Hence we assume that, a fault is permanent if and only if $\epsilon = Test Runs$.
+In the other direction, for permanent faults the value of $\epsilon = Test Runs$ holds true, except a rare possibility that the transient noise affects all of the test patterns, which have resulted in a failure at POs, in at least one of the test runs. This is also an extremely rare possibility. Hence we assume that, a fault is permanent if and only if $\epsilon = Test Runs$.
 
-If we go back to the section~\ref{sec:secfs} and observe the plot for $\epsilon$ in the figure~\ref{fig:epsilonp45k}, we can observe our assumption to be fairly accurate. Hence if we do a slight modification in our experimental setup and already remove faults where $\epsilon = Test Runs$, and classify them as permanent faults, we can achieve 100\% permanent fault classification, and we would be left with a binary classification problem between transient and intermittent faults. 
+If we go back to the section~\ref{sec:secfs} and observe the plot for $\epsilon$ in figure~\ref{fig:epsilonp45k}, we can observe our assumption to be fairly accurate. Hence if we do a slight modification in our experimental setup and already remove faults where $\epsilon = Test Runs$, and classify them as permanent faults, we can achieve up to 100\% permanent fault classification, and we would be left with a binary classification problem between transient and intermittent faults.
 
-\section{Classification without class-weight optimization}
-Class-weights are simple multipliers to parameter $C$ of the classifier of respective class. The first set of experiments consist of evaluation of accuracy levels without assigning class weights \emph{i.e.} class-weights are assumed to be \{1,1,1\} for permanent, intermittent and transient faults respectively. The experiments are carried out for variety of circuits ranging from a simple p45k to a highly complex p295k. The experiments are repeated for each type of kernel provided by \texttt{LIBSVM}. 
+There are two possibilities to do such pre-screening of permanent faults, one is just to scan all instances for all $\epsilon = Test Runs$ and remove those, or use an ensemble of two SVMs, first one to separate permanents and the other one to classify intermittents and transients. In this evaluation, first option is considered and permanents are removed from sample population, wherever analysis is done without considering permanent faults.
 
-This set of experiments consist of two rounds each for each kernel, first one includes permanent faults in the sample population, the other one without considering them. A round with permanents included, is carried out only to evaluate the relative change in accuracy levels of classification.
+\section{Classification with different kernels}
+The first set of experiments consist of evaluation of accuracy levels without assigning class-weights \emph{i.e.} class-weights described in section~\ref{sec:impl:tr} are assumed to be \{1,1,1\} for permanent, intermittent and transient faults respectively. The experiments are repeated for each type of kernel provided by \texttt{LIBSVM}.
+
+This set of experiments consist of two rounds each for each kernel, first round considers permanents in the sample population. This is done to show there are indeed kernels which can classify permanent faults with an accuracy up to 100\%, in case permanents are to be discarded using an ensemble of 2 different SVM kernels. The second round evaluates classification accuracies, by discarding permanents based on $\epsilon$ from the sample population.
 
 \subsection{Linear Kernel}
-Accuracy of SVM using a linear kernel is summarized in table~\ref{tab:linwp} with considering permanent faults in the sample population, and the same without considering permanents is summarized in the table~\ref{tab:linwop}.
+The accuracy of SVM using a linear kernel is summarized in table~\ref{tab:linwp} with considering permanent faults in the sample population, and the same considering permanents are discarded based on $\epsilon$, is summarized in the table~\ref{tab:linwop}.
 \begin{table}[h]
 
 	\captionsetup{justification=centering}
@@ -59,7 +63,7 @@ p295k                                        & 89.84                            
 \label{tab:linwp}
 \end{table}
 
-In both cases, with and without permanent faults, it can be observed that, permanent faults are being relatively accurately classified and background transient noise seems to have almost no effect on the classification accuracy of permanent faults. Intermittent faults in both cases have relatively low accuracy levels and tend to deteriorate severely in presence of transient noise. 
+In both cases, with and without permanent faults, it can be observed that permanent faults are being relatively accurately classified and the background transient noise seem to have almost no effect on the classification accuracy of permanent faults. Intermittent faults in both cases have relatively low accuracy levels and tend to deteriorate severely in presence of transient noise. 
 
 
 \begin{table}[h]
@@ -81,7 +85,7 @@ p295k                    & 89.17                             & 90.69          & 
 \label{tab:linwop}
 \end{table}
 
-After removing permanents from the sample population, classification accuracies are observed to improve, with an exception of p100k. However, accuracy levels are observed to increase for intermittents with noise, even in the case of p100k. Classification accuracy of transient faults has also increased. Cross-validation accuracy levels have decreased, as a large chuck of correctly classified data in earlier case was permanent faults. Comparatively lower accuracy levels for intermittent faults and almost 100\% classification rate for transients suggests that, linear kernel is more biased towards transient faults.
+After removing permanents from the sample population, classification accuracies are observed to improve, with an exception of p100k. However, accuracy levels are observed to increase for intermittents with noise, even in the case of p100k. The classification accuracy of transient faults has also increased. Cross-validation accuracy levels have decreased, as a large chunk of correctly classified data in the earlier case was permanent faults. Comparatively lower accuracy levels for intermittent faults and almost 100\% classification rate for transients suggests that the linear kernel is more biased towards transient faults.
 
 \subsection{Polynomial Kernel}
 \begin{table}[h]
@@ -104,9 +108,9 @@ p295k                    & 90.78                             & 100           & 9
 \label{tab:polywp}
 \end{table}
 
-Accuracy of SVM using a polynomial kernel is summarized in table~\ref{tab:polywp} with considering permanent faults in the sample population, and the same without considering permanents is summarized in table~\ref{tab:polywop}.
+The accuracy of SVM using a polynomial kernel is summarized in table~\ref{tab:polywp} with considering permanent faults in the sample population, and the same considering permanents are discarded based on $\epsilon$, is summarized in table~\ref{tab:polywop}.
 
-Accuracy of classification of permanent faults, without noise in case of the polynomial kernel is observed to be even higher than that for linear kernel. For permanents with noise, classification rates are almost similar. Intermittent faults with permanents in first round, without noise are deteriorating in some cases, while improving significantly in others. With noise, however, accuracy of intermittent fault classification is improved. Classification accuracy of transient faults is decreased as compared to the linear kernel.
+The accuracy of classification of permanent faults, without noise in case of the polynomial kernel is observed to be even higher than that for linear kernel. For permanents with noise, classification rates are almost similar. Intermittent faults and permanents without noise in first round, are deteriorating in some cases, while improving significantly in others. With noise, however, accuracy of intermittent fault classification is improved. Classification accuracy of transient faults has decreased as compared to the linear kernel.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -127,12 +131,12 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:polywop}
 \end{table}
 
-In the second round, after removing permanents, a huge improvement in accuracy of intermittent faults is observed as compared to the first round. The results are also better than those for the linear kernel.  A marginal improvement in transient fault classification accuracy is also observed as compared to the first round. However, overall figures for transients are lower than those for linear kernel. Observations suggest that, the polynomial kernel is slightly biased towards intermittents.
+In the second round, after removing permanents, a huge improvement in the accuracy of intermittent faults is observed as compared to the first round. The results are also better than those for the linear kernel.  A marginal improvement in the transient fault classification accuracy is also observed as compared to the first round. However, overall figures for transients are lower than those for the linear kernel. These observations suggest that, the polynomial kernel is slightly biased towards intermittents.
 
 
 \subsection{RBF Kernel}
 
-Accuracy of SVM using a Radial Basis Function (RBF) kernel is summarized in table~\ref{tab:rbfwp} with considering permanent faults in the sample population, and the same without considering permanents is summarized in table~\ref{tab:rbfwop}.
+The accuracy of SVM using a Radial Basis Function (RBF) kernel is summarized in table~\ref{tab:rbfwp} with considering permanent faults in the sample population, and the same considering permanents are discarded based on $\epsilon$, is summarized in table~\ref{tab:rbfwop}.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -152,11 +156,11 @@ p295k                    & 91.00                             & 100           & 1
 \caption {Classification accuracy for RBF kernel}
 \label{tab:rbfwp}
 \end{table}
-Classification rates for permanent faults, with and without noise, are higher for RBF kernel as compared to others. Like in other cases, injection of the transient noise has affected the accuracy of intermittent fault classification, significantly. Accuracy figures for both, intermittent faults with and without noise, are lower as compared to previous two kernels. Transient fault classification accuracy shows a marginal improvement over polynomial kernel, but is still lower than the linear kernel.
+The classification rates for permanent faults, with and without noise, are higher for RBF kernel as compared to others. This means that RBF can be used to screen permanent faults in pre-screening in an ensemble classifier with 2 kernels. Like in other cases, injection of the transient noise has affected the accuracy of intermittent fault classification significantly. Accuracy figures for both, intermittent faults with and without noise, are lower as compared to previous two kernels. The transient fault classification accuracy shows a marginal improvement over the polynomial kernel, but it is still lower than the linear kernel.
 
-Intermittent fault classification accuracy is increased for simpler circuits, but shows no change for more complex circuits. However, for intermittent faults injected with noise, accuracy is improved as compared to the first round, but is still lower than other kernel types. A slight increase in transient fault classification accuracy is also observed. 
+Intermittent fault classification accuracy is higher for smaller circuits, but shows no change for more complex ones. However, for intermittent faults injected with noise, the accuracy is improved as compared to the first round, but is still lower than other kernel types. A slight increase in transient fault classification accuracy is also observed. 
 
-A notable observation in case of RBF kernel is its comparatively higher cross-validation accuracy figures and lower test set classification accuracy, an indication that the kernel may be overfitting.
+A notable observation in case of the RBF kernel is its comparatively higher cross-validation accuracy figures and lower overall classification accuracy when using test data, an indication that the kernel may be overfitting.
 
 \begin{table}[h]
 	\captionsetup{justification=centering}
@@ -179,9 +183,9 @@ p295k                    & 85.64                             & 79.06          & 
 
 \subsection{Sigmoid Kernel}
 
-Accuracy of SVM using a sigmoid kernel is summarized in the table~\ref{tab:sigwp} with considering permanent faults in the sample population, and the same without considering permanents is summarized in the table~\ref{tab:sigwop}.
+The accuracy of SVM using a sigmoid kernel is summarized in the table~\ref{tab:sigwp} with considering permanent faults in the sample population, and the same considering permanents are discarded based on $\epsilon$, is summarized in the table~\ref{tab:sigwop}.
 
-Again, permanent fault classification rates for permanent faults is fairly high for sigmoid kernel also. The Intermittent fault classification accuracy is comparatively low (except p100k) despite high cross validation accuracy. This coupled with high transient fault classification accuracy indicate that, sigmoid kernel is biased towards transient faults. This has also resulted in a degradation of accuracy levels when intermittents were injected with transient noise.
+Again, the permanent fault classification rates are is fairly high, which makes the sigmoid kernel another possible candidate for an ensemble classifier using 2 SVM kernels. The intermittent fault classification accuracy is comparatively low (except p100k) despite a high cross validation accuracy. This coupled with the high transient fault classification accuracy indicate that, sigmoid kernel is biased towards transient faults. This has also resulted in a degradation of accuracy levels when intermittents were injected with transient noise.
 
 \begin{table}[h]
 
@@ -203,7 +207,7 @@ p295k                    & 85.09                             & 98.21         & 9
 \label{tab:sigwp}
 \end{table}
 
-The kernel became more biased towards transients when permanent fault examples were removed from the sample population. Transient fault classification accuracy was observed to increase to near 100\%. Also, the intermittent classification accuracy also increased at the same time, with and without transient noise.
+The kernel became more biased towards transients when permanent fault examples were removed from the sample population. The transient fault classification accuracy was observed to increase to near 100\%. Also, the intermittent classification accuracy also increased at the same time, with and without the transient noise.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -224,11 +228,11 @@ p295k                    & 92.28                             & 93.02          & 
 \label{tab:sigwop}
 \end{table}
 
-This set of experiments show that the relative accuracy levels for the fault classification actually increase if the sample population and test data is pre-screened for permanents faults. Hence for the rest of the evaluation,  all experiments are done by considering that the sample population consists of intermittent and transient faults only.
+This set of experiments show that the relative accuracy levels for the fault classification actually increase if the sample population and the test data is pre-screened for permanents faults. Hence for rest of the evaluation,  all experiments are done by considering that the sample population consists of intermittent and transient faults only.
 
 \subsection{Analysis of intermittent fault classification}
 \label{sec:wp:intanalysis}
-The first set of experiments reveal that the classification accuracy for intermittent faults comparatively low as compared to other fault types. Hence more detailed analysis is done, which can provide some hints about the improvement of intermittent fault classification accuracy. First, an analysis is done about how fault activation rates might be affecting classification accuracy. Table~\ref{tab:intdetail} summarizes the result of this analysis and it notes accuracy results for different intermittent fault activation rates, for examples in the the test dataset. For this analysis, a subset of circuits were analyzed using all four kernels of \texttt{LIBSVM}.
+The first set of experiments reveal that the classification accuracy for intermittent faults comparatively low as compared to the other fault types. Hence, more detailed analysis is done, which can provide some hints about the improvement of intermittent fault classification accuracy. First, an analysis is done about how fault activation rates might be affecting classification accuracy. Table~\ref{tab:intdetail} summarizes the result of this analysis and it notes the accuracy results for different intermittent fault activation rates in the test dataset. For this analysis, a subset of circuits were analyzed using all four kernels of \texttt{LIBSVM}.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -260,7 +264,7 @@ The first set of experiments reveal that the classification accuracy for intermi
 \label{tab:intdetail}
 \end{table}
 
-The analysis shows that, accuracy levels are fairly high for high fault activation rates of intermittent faults, but go on deteriorating for lower values of fault activation rates. The main reason this behavior is that, at lower fault activation rates of $10^{-3}$, the behavior of transient faults (activation rates for which are $10^{-2}$ to $10^{-4}$) matches the behavior of intermittents, and the learning algorithm fails to separate both from each other. This suggests that, instances where intermittent failures occurred only once and did not repeat themselves, are not able to convey enough information in their extracted features. Hence no classification algorithm will be able to improve on these figures significantly. To further elaborate this, accuracy analysis for the same circuits from table~\ref{tab:intdetail} is done by removing those intermittent faults from the test set, whose reproducibility ($\epsilon$) is less than one. The results of this analysis are presented in table~\ref{tab:intsweep}.
+The analysis shows that accuracy levels are fairly high for high fault activation rates of intermittent faults, but go on deteriorating for lower values of fault activation rates. The main reason behind this behavior is that, at lower fault activation rates of $10^{-3}$, the behavior of transient faults (activation rates for which are $10^{-2}$ to $10^{-4}$) matches the behavior of intermittents, and the learning algorithm fails to separate them from each other. This suggests that, instances where intermittent failures occurred only once and did not repeat themselves, are not able to convey enough information in their extracted features. Hence no classification algorithm will be able to improve on these figures significantly. To further elaborate this, an accuracy analysis for the same circuits from table~\ref{tab:intdetail} is done by removing those intermittent faults from the test set, whose reproducibility ($\epsilon$) is less than one. The results of this analysis are presented in table~\ref{tab:intsweep}.
 
 \begin{table}[h]
 \begin{tabular}{ccccc}
@@ -288,19 +292,20 @@ The analysis shows that, accuracy levels are fairly high for high fault activati
 \label{tab:intsweep}
 \end{table}
 
-The analysis from table~\ref{tab:intsweep} shows that, if we remove such data from the test set, classification of intermittent faults is accurate upto 100\%. The accuracy of transient fault classification remains the same, as the same classifier model and the same test dataset for transient faults is used as earlier experiments.
+The analysis from table~\ref{tab:intsweep} shows that, if we remove intermittents with low fault activation rates from the test set, the classification of intermittent faults is accurate up to 100\%. The accuracy of transient fault classification remains the same, as the same classifier model and the same test dataset for transient faults is used as earlier experiments.
 
-\section{With class-weight optimization}
+\section{Optimization for yield and quality using class weights}
 \label{sec:ww}
-The other possibility than the one suggested in the section~\ref{sec:wp:intanalysis} is to balance the training dataset. An unbalanced dataset is a possibility in our case, as we have set a tolerance of $\pm$ 75 on training examples of each class, as explained in the section~\ref{sec:gsp:configuration}. Class-weights are used while training the SVM by adding a penalty to samples of particular class, to compensate for the unavailability of enough positive examples for that class.
 
-\texttt{LIBSVM} provides a functionality to adjust individual class weights, to bias classification towards a specified class using \texttt{-wi} switch. We can use this functionality to:
+Class-weights are used while training the SVM by adding a penalty to samples of particular class, to compensate for the unavailability of sufficient positive examples for that class. \texttt{LIBSVM} provides a functionality to adjust individual class weights, to bias classification towards a specified class using \texttt{-wi} switch. We can use this functionality to:
 \begin{itemize}
   \item Fine-tune $C$ values for optimal classification. This way we can have a classifier which can separate most of examples in dataset.
-  \item Optimize classifier for classifying one type of faults more accurately than the other.This is particularly useful the user is more interested in optimizing for the quality, then he may wish to reject all chips with a slightest possibility of intermittent failure. In this case classifier can be optimized for classifying intermittent faults more accurately. On the other hand, if user wants to optimize for quality, classifier can be tuned to classify transient faults more accurately.
-\end{itemize}  
+  \item Optimize the classifier to classify one type of faults more accurately than the other.
+\end{itemize}
 
-Table~\ref{tab:optp267k} shows accuracy values, when optimizations mentioned above are performed.
+The first point presents another possibility to improve yield and retaining quality, at the same time. This is done by balancing the training dataset. An unbalanced dataset is a possibility in our case, as we have set a tolerance of $\pm$ 75 on training examples of each class, as explained in the section~\ref{sec:gsp:configuration}. 
+
+Table~\ref{tab:optp267k} shows the accuracy values when optimizations mentioned above are performed.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -334,9 +339,9 @@ Table~\ref{tab:optp267k} shows accuracy values, when optimizations mentioned abo
 \label{tab:optp267k}
 \end{table}
 
-To find out optimal values of weights in the case of optimization for both intermittent and transient faults at the same time, an exhaustive search of combinations of class-weights for \texttt{I} and \texttt{T} classes is performed. For experimental purpose, a limited search of region [1,2] with steps of 0.5 for combinations of class-weights is performed. Heat-maps for this search are shown in figure~\ref{fig:heatmap} for p267k. Using these heat-maps the weight combination were set up for the analysis presented above.
+To find out the set of optimal values of weights in the case of optimization for both intermittent and transient faults at the same time, an exhaustive search of combinations of class-weights for \texttt{I} and \texttt{T} classes is performed. For experimental purpose, a limited search of region [1,2] with steps of 0.05 for combinations of class-weights is performed. Heat-maps for this search are shown in figure~\ref{fig:heatmap} for p267k. Using these heat-maps the weight combinations were set up for the analysis presented above.
 
-Optimization for \enquote{All} labels is done by considering weights corresponding to the highest cross-validation accuracy. After class-weight optimization, accuracy levels are observed to be improved as compared to the same analysis done in section~\ref{sec:wp}.
+Optimization for \enquote{All} labels is done by considering weights corresponding to the highest cross-validation accuracy. After class-weight optimization, accuracy levels are observed to be improved as compared to the same analysis done in the section~\ref{sec:wp}.
 
 
 \begin{figure}
@@ -385,10 +390,10 @@ Optimization for \enquote{All} labels is done by considering weights correspondi
 
 
 \section{Classification using extrapolation of known training datasets}
-So far the evaluation of test data is done using a sample population of the same circuit type. In this section two other possibilities are considered. First, to use a sample population of a known circuit type, to classify the data of another circuit type. Second, to have a single training dataset, and use a classifier model built from this to predict example data of a circuit type, whose sample population is present in this \emph{universal} dataset.
+So far the evaluation of test data is done using a sample population of the same circuit. In this section two other possibilities are considered. First, to use a sample population of a known circuit, to classify the data of an another unknown circuit. Second, to have a single training dataset of all circuits, and use a classifier model built from this to predict example data of a circuit type, whose sample population is already present in this \emph{universal} dataset.
 
 \subsection{Using single known model for classification}
-In practical situations, we might not have the necessary training data for a new product beforehand, especially at the start of production. This section explores possibility of extrapolating known datasets for new circuit types. This set of experiments are done using the training data of p295k to predict test sets of other circuit types. p295k is chosen as sample population as it provided with the relatively most accurate results in the first set of experiments. The results obtained are summarized in the table~\ref{tab:univ295k}.
+In practical situations, one might not have the necessary training data for a new product beforehand, especially at the start of production. This section explores possibility of using known datasets for unknown circuit types. This set of experiments are done using the training data of p295k to predict test sets of other circuits. p295k is chosen as sample population as it provided with the relatively most accurate results in the first set of experiments. The results obtained are summarized in the table~\ref{tab:univ295k}.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -428,11 +433,11 @@ In practical situations, we might not have the necessary training data for a new
 \label{tab:univ295k}
 \end{table}
 
-Comparison with results from those obtained in the section~\ref{sec:wp}, shows an increase in accuracy levels. This can be attributed to two factors, a comparatively balanced dataset of p295k and high cross-validation accuracy levels of this dataset. Hence it is observed that, using a good-quality known dataset, examples from other circuit types can be classified with acceptable accuracy levels.
+The comparison of the results with those obtained in the section~\ref{sec:wp}, shows an increase in accuracy levels. This can be attributed to two factors, a comparatively more balanced dataset of p295k and high cross-validation accuracy levels of this dataset. Hence it is observed that, using a good-quality known dataset, examples from other circuit types can be classified with acceptable accuracy levels.
 
 \subsection{Using a universal training set for classification}
 
-In this set of experiments, a single universal sample population is built using sample populations of individual circuit types. The aim of this experiment to check a possibility of building an incremental universal dataset, which is able to classify data from any of known circuit types. Table~\ref{tab:universal} summarizes results observed.
+In this set of experiments, a single universal sample population is built using sample populations of individual circuits. The aim of this experiment to check a possibility of building an incremental universal dataset, which is able to classify data from any of known circuit types. Table~\ref{tab:universal} summarizes results observed.
 
 \begin{table}[h]
 \captionsetup{justification=centering}
@@ -476,6 +481,6 @@ In this set of experiments, a single universal sample population is built using 
 \label{tab:universal}
 \end{table}
 
-The universal dataset is also able to classify faults fairly accurately. Using polynomial and RBF kernels, accuracy levels of both intermittent and transient fault classification increased considerably at the same time. This is mainly because of an increase in the sample population providing  higher number of positive and negative examples of both classes and eventually resulting in better fitting of hypothesis class. A further increase in accuracy levels, for both or any one of fault types is possible using techniques discussed in section~\ref{sec:ww}.
+The universal dataset is also able to classify faults fairly accurate. Using polynomial and RBF kernels, accuracy levels of both intermittent and transient fault classification increased considerably, at the same time. This is mainly because of an increase in the sample population providing  higher number of positive and negative examples of both classes and eventually resulting in a better fitting of the hypothesis class. A further optimization of accuracy levels, for both or any one of fault types is possible using techniques discussed in section~\ref{sec:ww}.
 
 
