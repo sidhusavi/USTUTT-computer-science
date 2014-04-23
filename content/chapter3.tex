@@ -153,7 +153,7 @@ where $\phi$ denotes the function used to convert the non-linear feature space t
 
 Let $||\boldsymbol{w}||$ denote the distance between these hyperplanes, C a constant to adjust variance and to minimize the training error $\xi$ . Then the training of SVM is to find a maximum margin hyperplane, which can be viewed as an optimization problem \cite{Vapnik1995, Chang2011},
 \[\begin{array}{ll} 
- \min &\frac{1}{2} ||\boldsymbol{w}||^2 + C \sum\limits_{i=1}^n \xi_i \\
+ \min\limits_{\boldsymbol{w},\xi,w_0} &\frac{1}{2} ||\boldsymbol{w}||^2 + C \sum\limits_{i=1}^n \xi_i \\
  \mbox{subject to} & l^t(\boldsymbol{w^T}\phi(\boldsymbol{x}) + w_0) 
 \end{array}\]
 
